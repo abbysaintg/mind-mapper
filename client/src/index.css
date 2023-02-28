@@ -1,120 +1,162 @@
 html,
 body,
 #root {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f8f8f8;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+	background-color: #f8f8f8;
+	overflow: hidden;
 }
 
-/* .App {
-
-} */
+.App {
+}
 
 .nav {
-    background-color: #333;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: space-between;
-    gap: 2rem;
-    padding: 0 1rem;
+	background-color: #333;
+	color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: space-between;
+	gap: 2rem;
+	padding: 0 1rem;
 }
 
 .site-title {
-    font-size: 2rem;
+	font-size: 2rem;
 }
 
 .nav ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    padding: .25rem;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	display: flex;
+	align-items: center;
+	padding: 0.25rem;
 }
 
 .nav a {
-    color: inherit;
-    text-decoration: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: .25rem;
+	color: inherit;
+	text-decoration: none;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0.25rem;
 }
 
 .nav li.active {
-    background-color: #555;
+	background-color: #555;
 }
 
 .nav li:hover {
-    background-color: #777;
+	background-color: #777;
 }
 
-/* CONTAINER */
+/* CONTAINERS */
 
-.app-container {
-    padding: 20px;
-    width: 95vh;
-    height: 95vh;
+.map-container {
+	/* border: 1px solid red;
+    width: 100%;
+    height: 93vh; */
 }
 
 /* NODES */
 
-.box {
-    position: flex;
-    cursor: move;
-    color: black;
-    border: 1px solid black;
-    max-width: 215px;
-    border-radius: 5px;
-    padding: 1em;
-    margin: auto;
-    user-select: none;
-    justify-content: center;
-    align-items: center;
-  }
-
-.input {
-    border: none;
-    padding: 0 2px;
-    border-radius: 1px;
-    font-size: 1rem;
-    font-weight: 700;
-    background: transparent;
-    height: 100%;
-    color: #222;
+.node {
+    position: absolute;
+	color: black;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 1em;
+	justify-content: center;
+	align-items: center;
+    overflow-wrap: break-word;
 }
 
-.input:focus {
-    border: none;
-    outline: none;
-    background: rgba(255, 255, 255, 0.25);
+.node:hover {
+	border: 0.5px solid lightslategray;
 }
 
 .handle {
-    background: transparent;
-    width: 14px;
-    height: 100%;
-    margin-right: 4px;
-    display: flex;
-    align-items: center;
+    cursor: move;
+    padding-right: 10px;
 }
 
-.delete-button {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    background: #eee;
-    border: 1px solid #fff;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 12px;
-    line-height: 1;
+.input {
+	border: none;
+	border-radius: 1px;
+	font-size: 1rem;
+	font-weight: 700;
+	background: transparent;
+	color: #222;
 }
 
-/* EDGES */
+.input:focus {
+	border: none;
+	outline: none;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.add-top {
+	cursor: pointer;
+	position: absolute;
+	top: -12px;
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+}
+
+.add-top:hover {
+	opacity: 0.8;
+	transition: 0.5s ease-in-out;
+}
+
+.add-right {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	right: -12px;
+	transform: translateY(-50%);
+	opacity: 0;
+}
+
+.add-right:hover {
+	opacity: 0.8;
+	transition: 0.5s ease-in-out;
+}
+
+.add-bottom {
+	cursor: pointer;
+	position: absolute;
+	bottom: -12px;
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: 0;
+}
+
+.add-bottom:hover {
+	opacity: 0.8;
+	transition: 0.5s ease-in-out;
+}
+
+.add-left {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	left: -12px;
+	transform: translateY(-50%);
+	opacity: 0;
+}
+
+.add-left:hover {
+	opacity: 0.8;
+	transition: 0.5s ease-in-out;
+}
+
+/* NODE MENU */
+
+.icon {
+	cursor: pointer;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Library() {
+	const [maps, setMaps] = useState([])
 
 	useEffect(() => {
 		fetch('http://localhost:3000/maps')
@@ -25,11 +26,32 @@ function Library() {
 			body: JSON.stringify({ title }),
 		})
 			.then((resp) => resp.json())
-			.then((data) => {
-				mapSelect(data)
+			.then((map) => {
+                addNewNode(map)
+                mapSelect(map)
 			})
 			.catch((error) => console.log(error))
 	}
+
+    const addNewNode = (map) => {
+        const middleX = window.innerWidth / 2
+        const middleY = window.innerHeight / 2
+        fetch(`http://localhost:3000/maps/${map.id}/nodes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                label: 'Root Node',
+                x: middleX,
+                y: middleY,
+                color: '#000000',
+                parent_id: null,
+            }),
+        })
+            .then((resp) => resp.json())
+            .catch((error) => console.log(error))
+    }
 
 	const mapSelect = (map) => {
 		navigate(`/maps/${map.id}`) // Navigate to map/:id page

@@ -1,10 +1,7 @@
 function Edge({ edge }) {
-    return (
-        <div className="edge">
-            {edge?.source}
-            {edge?.target}
-        </div>
-    )
+
+
+	return <div className="edge"></div>
 }
 
 export default Edge
