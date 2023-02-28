@@ -10,7 +10,6 @@ function Navbar() {
 				<CustomLink to="/maps">Maps</CustomLink>
 				<CustomLink to="/profile">Profile</CustomLink>
 				<CustomLink to="/login">Login</CustomLink>
-                <CustomLink to="/line">Line</CustomLink>
 			</ul>
 		</nav>
 	)

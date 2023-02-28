@@ -12,6 +12,7 @@ body,
 }
 
 .App {
+
 }
 
 .nav {
@@ -65,14 +66,12 @@ body,
 /* NODES */
 
 .node {
-    position: absolute;
-	color: black;
+    display: flex;
+    justify-content: center;
+	align-items: center;
 	border: 1px solid black;
 	border-radius: 5px;
 	padding: 1em;
-	justify-content: center;
-	align-items: center;
-    overflow-wrap: break-word;
 }
 
 .node:hover {
@@ -85,7 +84,8 @@ body,
 }
 
 .input {
-	border: none;
+    width: auto;
+    border: none;
 	border-radius: 1px;
 	font-size: 1rem;
 	font-weight: 700;

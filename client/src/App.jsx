@@ -6,19 +6,17 @@ import Profile from './app-components/Profile'
 import Welcome from './app-components/Welcome'
 import Library from './map-components/Library'
 import Map from './map-components/Map'
-import Line from './app-components/Line'
 
 function App() {
 
 	return (
 		<div className="App">
-			{/* <Navbar /> */}
+			<Navbar />
                 <div className='container'>
                     <Routes>
                         <Route path="/" element={<Welcome />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/line" element={<Line />} />
                         <Route path="/maps" element={<Library />} />
                         <Route path="/maps/:id" element={<Map />} />
                     </Routes>
