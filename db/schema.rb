@@ -24,12 +24,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_27_202125) do
   end
 
   create_table "edges", force: :cascade do |t|
-    t.string "source"
-    t.string "target"
+    t.bigint "source_node_id", null: false
+    t.bigint "target_node_id", null: false
     t.bigint "map_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["map_id"], name: "index_edges_on_map_id"
+    t.index ["source_node_id"], name: "index_edges_on_source_node_id"
+    t.index ["target_node_id"], name: "index_edges_on_target_node_id"
   end
 
   create_table "maps", force: :cascade do |t|
@@ -61,5 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_27_202125) do
   add_foreign_key "collaborations", "maps"
   add_foreign_key "collaborations", "users"
   add_foreign_key "edges", "maps"
+  add_foreign_key "edges", "nodes", column: "source_node_id"
+  add_foreign_key "edges", "nodes", column: "target_node_id"
   add_foreign_key "nodes", "maps"
 end

@@ -1,5 +1,5 @@
 class CollaborationSerializer < ActiveModel::Serializer
-  attributes :id
-  has_one :user
-  has_one :map
+    attributes :id, :user_id, :map_id
+    belongs_to :user
+    belongs_to :map
 end

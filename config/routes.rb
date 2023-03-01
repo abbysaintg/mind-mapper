@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get '/maps/:id/nodes/:node_id', to: 'maps#node'
   get '/maps/:id/edges/:edge_id', to: 'maps#edge'
 
+  get '/maps/:id/nodes/:node_id/edges', to: 'edges#index'
+
   post '/maps/:id/nodes', to: 'maps#create_node'
   post '/maps/:id/edges', to: 'maps#create_edge'
 
