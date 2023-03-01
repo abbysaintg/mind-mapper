@@ -1,6 +1,5 @@
 class Map < ApplicationRecord
-    has_many :edges
+    belongs_to :user
     has_many :nodes
-    has_many :collaborations
-    has_many :users, through: :collaborations 
+    has_many :lines
 end

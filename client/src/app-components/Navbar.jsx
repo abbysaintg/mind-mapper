@@ -1,16 +1,26 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
-function Navbar() {
+function Navbar({ user, handleLogout }) {
 	return (
 		<nav className="nav">
-			<Link to="/" className="site-title">
+			<Link to="/" className="site-title gradient">
 				Mind Mapper
 			</Link>
-			<ul>
-				<CustomLink to="/maps">Maps</CustomLink>
-				<CustomLink to="/profile">Profile</CustomLink>
-				<CustomLink to="/login">Login</CustomLink>
-			</ul>
+			{user ? (
+				<ul className="gradient">
+					<CustomLink to="/maps">Maps</CustomLink>
+					<CustomLink to="/profile">Profile</CustomLink>
+					<li>
+						<button onClick={handleLogout}>Logout</button>
+					</li>
+				</ul>
+			) : (
+				<ul className="gradient">
+					<CustomLink to="/">Home</CustomLink>
+					<CustomLink to="/login">Login</CustomLink>
+					<CustomLink to="/signup">Signup</CustomLink>
+				</ul>
+			)}
 		</nav>
 	)
 }

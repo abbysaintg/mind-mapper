@@ -1,24 +1,43 @@
 Rails.application.routes.draw do
-  resources :edges
-  resources :nodes
-  resources :collaborations
-  resources :maps
-  resources :users
+    
+    post '/login', to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
+    get '/logged_in', to: 'sessions#is_logged_in?'
 
-  get '/maps/:id/nodes', to: 'maps#nodes'
-  get '/maps/:id/edges', to: 'maps#edges'
-
-  get '/maps/:id/nodes/:node_id', to: 'maps#node'
-  get '/maps/:id/edges/:edge_id', to: 'maps#edge'
-
-  get '/maps/:id/nodes/:node_id/edges', to: 'edges#index'
-
-  post '/maps/:id/nodes', to: 'maps#create_node'
-  post '/maps/:id/edges', to: 'maps#create_edge'
-
-  patch '/maps/:id/nodes/:node_id', to: 'maps#update_node'
-  patch '/maps/:id/edges/:edge_id', to: 'maps#update_edge'
-
-  delete '/maps/:id/nodes/:node_id', to: 'maps#destroy_node'
-  delete '/maps/:id/edges/:edge_id', to: 'maps#destroy_edge'
+    resources :users do
+        resources :maps do
+            resources :nodes
+            resources :lines
+        end
+    end
 end
+
+#### ROUTES ####
+
+# user_map_nodes GET    /users/:user_id/maps/:map_id/nodes(.:format)                                       nodes#index
+# POST   /users/:user_id/maps/:map_id/nodes(.:format)                                                      nodes#create
+# user_map_node GET    /users/:user_id/maps/:map_id/nodes/:id(.:format)                                    nodes#show
+# PATCH  /users/:user_id/maps/:map_id/nodes/:id(.:format)                                                  nodes#update
+# PUT    /users/:user_id/maps/:map_id/nodes/:id(.:format)                                                  nodes#update
+# DELETE /users/:user_id/maps/:map_id/nodes/:id(.:format)                                                  nodes#destroy
+
+# user_map_lines GET    /users/:user_id/maps/:map_id/lines(.:format)                                       lines#index
+# POST   /users/:user_id/maps/:map_id/lines(.:format)                                                      lines#create
+# user_map_line GET    /users/:user_id/maps/:map_id/lines/:id(.:format)                                    lines#show
+# PATCH  /users/:user_id/maps/:map_id/lines/:id(.:format)                                                  lines#update
+# PUT    /users/:user_id/maps/:map_id/lines/:id(.:format)                                                  lines#update
+# DELETE /users/:user_id/maps/:map_id/lines/:id(.:format)                                                  lines#destroy
+
+# user_maps GET    /users/:user_id/maps(.:format)                                                          maps#index
+# POST   /users/:user_id/maps(.:format)                                                                    maps#create
+# user_map GET    /users/:user_id/maps/:id(.:format)                                                       maps#show
+# PATCH  /users/:user_id/maps/:id(.:format)                                                                maps#update
+# PUT    /users/:user_id/maps/:id(.:format)                                                                maps#update
+# DELETE /users/:user_id/maps/:id(.:format)                                                                maps#destroy
+
+# users GET    /users(.:format)                                                                            users#index
+# POST   /users(.:format)                                                                                  users#create
+# user GET    /users/:id(.:format)                                                                         users#show
+# PATCH  /users/:id(.:format)                                                                              users#update
+# PUT    /users/:id(.:format)                                                                              users#update
+# DELETE /users/:id(.:format)

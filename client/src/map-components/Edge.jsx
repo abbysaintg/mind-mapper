@@ -35,7 +35,7 @@ function Edge({ mapId, edge, nodes }) {
 	}, [])
 
 	return (
-		<div className="edge">
+		<div>
 			<svg style={{ position: 'absolute', zIndex: 100 }}>
 				<line x1={sourceX} y1={sourceY} x2={targetX} y2={targetY} stroke="black" strokeWidth="3" />
 			</svg>

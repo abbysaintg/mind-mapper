@@ -23,7 +23,24 @@ function Map() {
 		}
 	}, [])
 
-	const handleAddNode = (parentNodeId, placement) => {
+	const handleAddNode = (sourceNodeId, placement, positionX, positionY) => {
+		let newX
+		let newY
+		if (placement == 'top') {
+			newX = positionX
+			newY = positionY - 100
+		} else if (placement == 'right') {
+			newX = positionX + 400
+			newY = positionY
+		} else if (placement == 'bottom') {
+			newX = positionX
+			newY = positionY + 100
+		} else if (placement == 'left') {
+			newX = positionX - 400
+			newY = positionY
+		} else {
+			return
+		}
 		fetch(`http://localhost:3000/maps/${mapId}/nodes`, {
 			method: 'POST',
 			headers: {
@@ -31,25 +48,44 @@ function Map() {
 			},
 			body: JSON.stringify({
 				label: 'New Node',
-				x: 500,
-				y: 500,
+				x: newX,
+				y: newY,
 				color: '#000000',
-				parent_id: parentNodeId,
+				parent_id: sourceNodeId,
 			}),
 		})
 			.then((response) => response.json())
-			.then((node) => {
-				setNodes([...nodes, node])
-                handleAddEdge(node)
+			.then((newNode) => {
+				setNodes([...nodes, newNode])
+				handleAddEdge(sourceNodeId, placement, positionX, positionY, newNode)
 			})
 			.catch((error) => console.log('Error:', error))
 	}
 
-    const handleAddEdge = (node) => {
-        // edge has source
-        // edge has new target
-        console.log(node)
-    }
+	const handleAddEdge = (sourceNodeId, positionX, positionY, newNode, placement) => {
+        // const targetNode = nodes.find((node) => node.id === node.newNode.id)
+        console.log(sourceNodeId, newNode)
+        fetch(`http://localhost:3000/maps/${mapId}/edges`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+                source_node_id: sourceNodeId,
+                target_node_id: newNode.id,
+                map_id: mapId,
+                source_x: positionX,
+                source_y: positionY,
+                target_x: newNode.x,
+                target_y: newNode.y,
+              })
+		})
+			.then((response) => response.json())
+			.then((edge) => {
+				setEdges([...edges, edge])
+			})
+			.catch((error) => console.log('Error:', error))
+	}
 
 	const handleDeleteNode = (nodeId) => {
 		fetch(`http://localhost:3000/maps/${mapId}/nodes/${nodeId}`, {
@@ -59,7 +95,7 @@ function Map() {
 				if (response.ok) {
 					const updatedNodes = nodes.filter((node) => node.id !== nodeId)
 					setNodes(updatedNodes)
-                    handleEdgeDelete(nodeId)
+					handleEdgeDelete(nodeId)
 				} else {
 					throw new Error('Network response was not ok.')
 				}
@@ -67,12 +103,12 @@ function Map() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-    const handleEdgeDelete = (nodeId) => {
-        // find correct edge to delete
-        console.log(nodeId)
-    }
+	const handleEdgeDelete = (nodeId) => {
+		// find correct edge to delete
+		console.log(nodeId)
+	}
 
-    const updateNodePosition = (newPosition, nodeId) => {
+	const updateNodePosition = (newPosition, nodeId) => {
 		fetch(`http://localhost:3000/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			headers: {
@@ -84,19 +120,19 @@ function Map() {
 			}),
 		})
 			.then((response) => response.json())
-            .then((data) => {
-                updateEdgePosition(data)
-            })
+			.then((data) => {
+				updateEdgePosition(data)
+			})
 			.catch((error) => {
 				console.log('Error updating node position:', error)
 			})
 	}
 
-    const updateEdgePosition = (target) => {
-        // source position is the same
-        // target position is updated
-        console.log(target)
-    }
+	const updateEdgePosition = (target) => {
+		// source position is the same
+		// target position is updated
+		console.log(target)
+	}
 
 	return (
 		<div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -109,7 +145,7 @@ function Map() {
 				return null
 			})}
 			{nodes.map((node) => (
-				<Node key={node.id} mapId={mapId} node={node} nodes={nodes} handleAddNode={handleAddNode} handleDeleteNode={handleDeleteNode} updateNodePosition={updateNodePosition}/>
+				<Node key={node.id} mapId={mapId} node={node} nodes={nodes} handleAddNode={handleAddNode} handleDeleteNode={handleDeleteNode} updateNodePosition={updateNodePosition} />
 			))}
 		</div>
 	)
