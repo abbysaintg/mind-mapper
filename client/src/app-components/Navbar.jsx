@@ -8,7 +8,7 @@ function Navbar({ user, handleLogout }) {
 			</Link>
 			{user ? (
 				<ul className="gradient">
-					<CustomLink to="/maps">Maps</CustomLink>
+					<CustomLink to="/users/:user_id/maps">Maps</CustomLink>
 					<CustomLink to="/profile">Profile</CustomLink>
 					<li>
 						<button onClick={handleLogout}>Logout</button>

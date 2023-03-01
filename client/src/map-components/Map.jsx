@@ -1,101 +1,101 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Node from './Node'
 import Line from './Line'
 
 function Map() {
-	const { id } = useParams()
-	const mapId = parseInt(id)
-	const [edges, setEdges] = useState([])
-	const [nodes, setNodes] = useState([])
 	const [title, setTitle] = useState([])
+	const [nodes, setNodes] = useState([])
+	const [lines, setLines] = useState([])
+    const { user_id, map_id } = useParams()
+
+    console.log('Map component rendered')
+    console.log(user_id)
+    console.log(map_id)
 
 	useEffect(() => {
-		if (mapId) {
-			fetch(`http://localhost:3000/maps/${mapId}`)
+		if (map_id) {
+            console.log(`Fetching data for map ${map_id}`)
+			fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}`, {
+                credentials: 'include',
+            })
 				.then((resp) => resp.json())
 				.then((data) => {
-					setNodes(data.nodes)
-					setEdges(data.edges)
 					setTitle(data.title)
+					setNodes(data.nodes)
+					setLines(data.lines)
+                    console.log("data fetched")
 				})
 				.catch((error) => console.log('Error:', error))
 		}
-	}, [])
+	}, [user_id, map_id])
 
-	const handleAddNode = (sourceNodeId, placement, positionX, positionY) => {
-		let newX
-		let newY
+	const handleAddNode = (node_1, placement, positionX, positionY) => {
+		let node_2_x
+		let node_2_y
 		if (placement == 'top') {
-			newX = positionX
-			newY = positionY - 100
+			node_2_x = positionX
+			node_2_y = positionY - 100
 		} else if (placement == 'right') {
-			newX = positionX + 400
-			newY = positionY
+			node_2_x = positionX + 400
+			node_2_y = positionY
 		} else if (placement == 'bottom') {
-			newX = positionX
-			newY = positionY + 100
+			node_2_x = positionX
+			node_2_y = positionY + 100
 		} else if (placement == 'left') {
-			newX = positionX - 400
-			newY = positionY
+			node_2_x = positionX - 400
+			node_2_y = positionY
 		} else {
 			return
 		}
-		fetch(`http://localhost:3000/maps/${mapId}/nodes`, {
+		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes`, {
 			method: 'POST',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
 				label: 'New Node',
-				x: newX,
-				y: newY,
-				color: '#000000',
-				parent_id: sourceNodeId,
+				x: node_2_x,
+				y: node_2_y,
 			}),
 		})
 			.then((response) => response.json())
-			.then((newNode) => {
-				setNodes([...nodes, newNode])
-				handleAddEdge(sourceNodeId, placement, positionX, positionY, newNode)
+			.then((node_2) => {
+				setNodes([...nodes, node_2])
+				handleAddLine(node_1, placement, node_2, node_2_x, node_2_y)
 			})
 			.catch((error) => console.log('Error:', error))
 	}
 
-	const handleAddEdge = (sourceNodeId, positionX, positionY, newNode, placement) => {
-        // const targetNode = nodes.find((node) => node.id === node.newNode.id)
-        console.log(sourceNodeId, newNode)
-        fetch(`http://localhost:3000/maps/${mapId}/edges`, {
+	const handleAddLine = (node_1, placement, node_2, node_2_x, node_2_y) => {
+        fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/lines`, {
 			method: 'POST',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-                source_node_id: sourceNodeId,
-                target_node_id: newNode.id,
-                map_id: mapId,
-                source_x: positionX,
-                source_y: positionY,
-                target_x: newNode.x,
-                target_y: newNode.y,
+
               })
 		})
 			.then((response) => response.json())
-			.then((edge) => {
-				setEdges([...edges, edge])
+			.then((line) => {
+				setLines([...lines, line])
 			})
 			.catch((error) => console.log('Error:', error))
 	}
 
 	const handleDeleteNode = (nodeId) => {
-		fetch(`http://localhost:3000/maps/${mapId}/nodes/${nodeId}`, {
-			method: 'DELETE',
+		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes/${nodeId}`, {
+            method: 'DELETE',
+            credentials: 'include',
 		})
 			.then((response) => {
 				if (response.ok) {
 					const updatedNodes = nodes.filter((node) => node.id !== nodeId)
 					setNodes(updatedNodes)
-					handleEdgeDelete(nodeId)
+					handLineDelete(nodeId)
 				} else {
 					throw new Error('Network response was not ok.')
 				}
@@ -103,14 +103,15 @@ function Map() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-	const handleEdgeDelete = (nodeId) => {
-		// find correct edge to delete
+	const handLineDelete = (nodeId) => {
+		// find correct line to delete
 		console.log(nodeId)
 	}
 
 	const updateNodePosition = (newPosition, nodeId) => {
-		fetch(`http://localhost:3000/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes/${nodeId}`, {
 			method: 'PATCH',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -121,33 +122,36 @@ function Map() {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				updateEdgePosition(data)
+				updateLinePosition(data)
 			})
 			.catch((error) => {
 				console.log('Error updating node position:', error)
 			})
 	}
 
-	const updateEdgePosition = (target) => {
+	const updateLinePosition = (target) => {
 		// source position is the same
 		// target position is updated
 		console.log(target)
 	}
 
 	return (
-		<div style={{ position: 'relative', width: '100%', height: '100%' }}>
-			{edges.map((edge) => {
-				const sourceNode = nodes.find((node) => node.id === edge.source_node_id)
-				const targetNode = nodes.find((node) => node.id === edge.target_node_id)
-				if (sourceNode && targetNode) {
-					return <Line key={edge.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} />
-				}
-				return null
-			})}
-			{nodes.map((node) => (
-				<Node key={node.id} mapId={mapId} node={node} nodes={nodes} handleAddNode={handleAddNode} handleDeleteNode={handleDeleteNode} updateNodePosition={updateNodePosition} />
-			))}
-		</div>
+        <>
+            <h1 className='gradient'>{title}</h1>
+            <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                {lines.map((line) => {
+                    const sourceNode = nodes.find((node) => node.id === line.source_node_id)
+                    const targetNode = nodes.find((node) => node.id === line.target_node_id)
+                    if (sourceNode && targetNode) {
+                        return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} />
+                    }
+                    return null
+                })}
+                {nodes.map((node) => (
+                    <Node key={node.id} user_id={user_id} map_id={map_id} node={node} nodes={nodes} handleAddNode={handleAddNode} handleDeleteNode={handleDeleteNode} updateNodePosition={updateNodePosition} />
+                ))}
+            </div>
+        </>
 	)
 }
 

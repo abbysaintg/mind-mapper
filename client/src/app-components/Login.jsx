@@ -9,6 +9,7 @@ function Login({ handleLogin }) {
 
 		fetch('http://localhost:3000/login', {
 			method: 'POST',
+            credentials: 'include', // Send cookies with the request
 			headers: {
 				'Content-Type': 'application/json',
 			},

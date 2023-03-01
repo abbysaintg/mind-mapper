@@ -1,7 +1,7 @@
 function Welcome() {
     return (
         <div>
-            Welcome
+            <h1 className="gradient">Welcome</h1>
         </div>
     )
 }

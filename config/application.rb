@@ -32,5 +32,7 @@ module DiyMindMapper
 
         # Use SameSite=Strict for all cookies to help protect against CSRF
         config.action_dispatch.cookies_same_site_protection = :strict
+
+        config.session_store :cookie_store, key: '_myapp_session', domain: :all, tld_length: 2
     end
 end

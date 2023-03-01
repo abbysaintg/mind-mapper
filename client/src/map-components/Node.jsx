@@ -4,7 +4,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-function Node({ mapId, node, nodes, handleAddNode, handleDeleteNode, updateNodePosition }) {
+function Node({ user_id, map_id, node, handleAddNode, handleDeleteNode, updateNodePosition }) {
 	const [label, setLabel] = useState(node.label)
 	const [position, setPosition] = useState({ x: node.x, y: node.y })
 	const divRef = useRef(null)
@@ -16,8 +16,9 @@ function Node({ mapId, node, nodes, handleAddNode, handleDeleteNode, updateNodeP
 
 	const updateNodeLabel = (newLabel, nodeId) => {
 		setLabel(newLabel)
-		fetch(`http://localhost:3000/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes/${node.id}`, {
 			method: 'PATCH',
+            credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -32,7 +33,7 @@ function Node({ mapId, node, nodes, handleAddNode, handleDeleteNode, updateNodeP
 	}
 
 	return (
-		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} onStop={(newPosition) => handleMove(newPosition)}>
+		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} onDrag={(newPosition) => handleMove(newPosition)}>
 			<div ref={divRef} className="node background gradient-border" style={{ position: 'absolute', left: node.x - 30, top: node.y - 30 }}>
 				<div className="gradient">
 					<DragIndicatorIcon className="handle icon-drag" />
