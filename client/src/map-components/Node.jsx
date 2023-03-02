@@ -1,48 +1,34 @@
-import { useEffect, useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import DraggableCore from 'react-draggable'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-function Node({ user_id, map_id, node, handleAddNode, handleDeleteNode, updateNodePosition }) {
+function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updateLinePosition, updateNodeLabel }) {
 	const [label, setLabel] = useState(node.label)
-	const [position, setPosition] = useState({ x: node.x, y: node.y })
 	const divRef = useRef(null)
 
-	const handleMove = (newPosition) => {
-		setPosition(newPosition)
-		updateNodePosition(newPosition, node.id)
+	const handleMove = (data) => {
+		updateNodePosition(data, node.id)
+		updateLinePosition(data, node.id)
 	}
 
-	const updateNodeLabel = (newLabel, nodeId) => {
-		setLabel(newLabel)
-		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes/${node.id}`, {
-			method: 'PATCH',
-            credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				label: newLabel,
-			}),
-		})
-			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node label:', error)
-			})
+	const handleLabelChange = (e) => {
+		setLabel(e.target.value)
+		updateNodeLabel(label, node.id)
 	}
 
 	return (
-		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} onDrag={(newPosition) => handleMove(newPosition)}>
-			<div ref={divRef} className="node background gradient-border" style={{ position: 'absolute', left: node.x - 30, top: node.y - 30 }}>
+		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} defaultPosition={{ x: node.x, y: node.y }} onStop={(e, data) => handleMove(data)}>
+			<div ref={divRef} className="node background gradient-border">
 				<div className="gradient">
 					<DragIndicatorIcon className="handle icon-drag" />
-					<input value={label} className="input gradient" onChange={(e) => updateNodeLabel(e.target.value, node.id)} />
+					<input value={label} className="input gradient" onChange={handleLabelChange} />
 					<DeleteForeverIcon className="icon" onClick={() => handleDeleteNode(node.id)} />
-					<AddCircleOutlineIcon className="add-top icon" onClick={() => handleAddNode(node.id, 'top', position.x, position.y)} />
-					<AddCircleOutlineIcon className="add-right icon" onClick={() => handleAddNode(node.id, 'right', position.x, position.y)} />
-					<AddCircleOutlineIcon className="add-bottom icon" onClick={() => handleAddNode(node.id, 'bottom', position.x, position.y)} />
-					<AddCircleOutlineIcon className="add-left icon" onClick={() => handleAddNode(node.id, 'left', position.x, position.y)} />
+					<AddCircleOutlineIcon className="add-top icon" onClick={() => handleAddNode(node.id, 'top', node.x, node.y)} />
+					<AddCircleOutlineIcon className="add-right icon" onClick={() => handleAddNode(node.id, 'right', node.x, node.y)} />
+					<AddCircleOutlineIcon className="add-bottom icon" onClick={() => handleAddNode(node.id, 'bottom', node.x, node.y)} />
+					<AddCircleOutlineIcon className="add-left icon" onClick={() => handleAddNode(node.id, 'left', node.x, node.y)} />
 				</div>
 			</div>
 		</DraggableCore>

@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react'
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import React, { createContext, useEffect, useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Navbar from './app-components/Navbar'
-import Profile from './app-components/Profile'
 import Welcome from './app-components/Welcome'
 import Library from './map-components/Library'
 import Map from './map-components/Map'
-import LoginForm from './app-components/Login'
+import Login from './app-components/Login'
 import SignUp from './app-components/SignUp'
 
+export const UserContext = createContext(null)
+export const MapContext = createContext(null)
+
 function App() {
+	const [loggedIn, setLoggedIn] = useState(false)
 	const [user, setUser] = useState(null)
-	const [isLoading, setIsLoading] = useState(true)
+	const [mapId, setMapId] = useState(null)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetch('http://localhost:3000/logged_in', {
@@ -19,28 +23,32 @@ function App() {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.logged_in) {
+					setLoggedIn(true)
 					setUser(data.user)
+					// localStorage.setItem('loggedIn', 'true') // persist login status
 				}
-				setIsLoading(false)
 			})
 			.catch((error) => {
 				console.log(error)
-				setIsLoading(false)
 			})
 	}, [])
 
 	const handleLogin = (user) => {
+		setLoggedIn(true)
 		setUser(user)
-		navigate(`/users/${user.id}/maps`)
+		navigate(`/maps`)
+		// localStorage.setItem('loggedIn', 'true') // persist login status
 	}
-
-	const navigate = useNavigate()
 
 	const handleLogout = () => {
 		fetch('http://localhost:3000/logout', { method: 'DELETE' })
 			.then((response) => {
 				if (response.ok) {
+					setLoggedIn(false)
 					setUser(null)
+					setMapId(null) // reset mapId when logging out
+					navigate(`/login`)
+					// localStorage.removeItem('loggedIn') // Remove the login status from local storage
 				} else {
 					throw new Error('Logout failed')
 				}
@@ -50,21 +58,20 @@ function App() {
 			})
 	}
 
-	if (isLoading) {
-		return <div>Loading...</div>
-	}
-
 	return (
 		<div className="app">
-			<Navbar user={user} handleLogout={handleLogout} />
-			<Routes>
-				<Route path="/" element={user ? <Navigate to={`/users/${user.id}/maps`} /> : <Welcome />} />
-				<Route path="/profile" element={<Profile />} />
-				<Route path="/users/:user_id/maps" element={<Library user_id={user ? user.id : null} />} />
-				<Route path="/users/:user_id/maps/:map_id" element={<Map />} />
-				<Route path="/login" element={<LoginForm handleLogin={handleLogin} />} />
-				<Route path="/signup" element={<SignUp handleLogin={handleLogin} />} />
-			</Routes>
+			<UserContext.Provider value={{ user, setUser }}>
+				<MapContext.Provider value={{ mapId, setMapId }}>
+					<Navbar loggedIn={loggedIn} handleLogout={handleLogout} />
+					<Routes>
+						<Route path="/" element={<Welcome />} />
+						<Route path="/login" element={<Login handleLogin={handleLogin} />} />
+						<Route path="/signup" element={<SignUp handleLogin={handleLogin} />} />
+						<Route path="/maps" element={<Library />} />
+						<Route path="/maps/:mapId" element={<Map />} />
+					</Routes>
+				</MapContext.Provider>
+			</UserContext.Provider>
 		</div>
 	)
 }

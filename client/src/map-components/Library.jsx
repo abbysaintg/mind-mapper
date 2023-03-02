@@ -1,12 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, createContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../App'
+import { MapContext } from '../App'
 
 function Library() {
+	const { user } = useContext(UserContext)
 	const [maps, setMaps] = useState([])
-    const navigate = useNavigate()
+    const { setMapId } = useContext(MapContext)
+	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch(`http://localhost:3000/users/${user_id}/maps`, {
+		if (!user) return // add null check here
+		fetch(`http://localhost:3000/users/${user.id}/maps`, {
 			credentials: 'include',
 		})
 			.then((resp) => resp.json())
@@ -15,58 +20,43 @@ function Library() {
 				setMaps(data)
 			})
 			.catch((error) => console.log('Error:', error))
-	}, [])
+	}, [user])
 
 	const handleAddMap = () => {
 		const title = prompt('Enter a title for your new map')
 		if (!title) return
 
-		fetch(`http://localhost:3000/users/${user_id}/maps`, {
+		fetch(`http://localhost:3000/users/${user.id}/maps`, {
 			method: 'POST',
-            credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ map: { title } }),
-		})
-			.then((resp) => resp.json())
-			.then((map) => {
-				addRootNode(map.id)
-				handleSelectMap(map.id)
-			})
-			.catch((error) => console.log(error))
-	}
-
-	const addRootNode = (map_id) => {
-		const middleX = window.innerWidth / 2
-		const middleY = window.innerHeight / 2
-		fetch(`http://localhost:3000/users/${user_id}/maps/${map_id}/nodes`, {
-			method: 'POST',
-            credentials: 'include',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				node: {
-					label: 'Root Node',
-					x: middleX,
-					y: middleY,
+				map: {
+					title,
 				},
 			}),
 		})
 			.then((resp) => resp.json())
+			.then((map) => handleSelectMap(map.id))
 			.catch((error) => console.log(error))
 	}
 
-	const handleSelectMap = (map_id) => {
-		navigate(`/users/${user_id}/maps/${map_id}`)
+	const handleSelectMap = (mapId) => {
+		navigate(`/maps/${mapId}`)
+		setMapId(mapId)
 	}
-
 	return (
 		<div>
-			<h1 className="gradient">My Maps</h1>
+			{/* <h1 className="gradient">{user.name}'s Maps</h1> */}
 			{maps.map((map) => (
-				<div key={map.id} onClick={() => handleSelectMap(map.id)}>
+				<div
+					className="gradient"
+					key={map.id}
+					onClick={() => {
+						handleSelectMap(map.id)
+					}}>
 					<h3>{map.title}</h3>
 				</div>
 			))}

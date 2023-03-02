@@ -16,8 +16,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_183831) do
 
   create_table "lines", force: :cascade do |t|
     t.integer "map_id"
-    t.integer "node_id_1"
-    t.integer "node_id_2"
+    t.integer "parent_id"
+    t.integer "child_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

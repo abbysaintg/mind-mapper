@@ -103,12 +103,13 @@ body,
 /* NODES */
 
 .node {
+    position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: 5px;
 	padding: 1em;
-	/* background: var(--darkBlue); */
+    width: fit-content;
 }
 
 .node:hover {

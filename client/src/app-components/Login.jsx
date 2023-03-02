@@ -9,7 +9,7 @@ function Login({ handleLogin }) {
 
 		fetch('http://localhost:3000/login', {
 			method: 'POST',
-            credentials: 'include', // Send cookies with the request
+			credentials: 'include', // Send cookies with the request
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -36,7 +36,7 @@ function Login({ handleLogin }) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} >
+		<form onSubmit={handleSubmit}>
 			<h2 className="gradient">Login</h2>
 			<label className="gradient">
 				Email:
