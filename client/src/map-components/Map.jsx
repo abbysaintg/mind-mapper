@@ -28,22 +28,24 @@ function Map() {
 	const handleAddNode = (node_1, placement, positionX, positionY) => {
 		let node_2_x
 		let node_2_y
+		const padding = 100 // Set padding from edges of the viewport
 		if (placement === 'top') {
-			node_2_x = positionX
-			node_2_y = positionY - 100
+			node_2_x = Math.max(0, Math.min(positionX, window.innerWidth - padding))
+			node_2_y = Math.max(0, Math.min(positionY - 100, window.innerHeight - padding))
 		} else if (placement === 'right') {
-			node_2_x = positionX + 400
-			node_2_y = positionY
+			node_2_x = Math.max(0, Math.min(positionX + 250, window.innerWidth - padding))
+			node_2_y = Math.max(0, Math.min(positionY, window.innerHeight - padding))
 		} else if (placement === 'bottom') {
-			node_2_x = positionX
-			node_2_y = positionY + 100
+			node_2_x = Math.max(0, Math.min(positionX, window.innerWidth - padding))
+			node_2_y = Math.max(0, Math.min(positionY + 100, window.innerHeight - padding))
 		} else if (placement === 'left') {
-			node_2_x = positionX - 400
-			node_2_y = positionY
+			node_2_x = Math.max(0, Math.min(positionX - 250, window.innerWidth - padding))
+			node_2_y = Math.max(0, Math.min(positionY, window.innerHeight - padding))
 		} else {
-			node_2_x = window.innerWidth / 2
-			node_2_y = window.innerHeight / 2
+			node_2_x = Math.max(0, Math.min(window.innerWidth / 2, window.innerWidth - padding))
+			node_2_y = Math.max(0, Math.min(window.innerHeight / 2, window.innerHeight - padding))
 		}
+
 		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes`, {
 			method: 'POST',
 			credentials: 'include',
@@ -94,9 +96,13 @@ function Map() {
 		})
 			.then((response) => {
 				if (response.ok) {
+					// delete all lines connected to the deleted node
+					const linesToDelete = lines.filter((line) => line.parent_id === nodeId || line.child_id === nodeId)
+					linesToDelete.forEach((line) => handleLineDelete(line.id))
+
+					// Delete the node itself and update the state
 					const updatedNodes = nodes.filter((node) => node.id !== nodeId)
 					setNodes(updatedNodes)
-					handLineDelete(nodeId)
 				} else {
 					throw new Error('Network response was not ok.')
 				}
@@ -104,8 +110,20 @@ function Map() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-	const handLineDelete = (nodeId) => {
-		console.log(nodeId)
+	const handleLineDelete = (lineId) => {
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
+			method: 'DELETE',
+			credentials: 'include',
+		})
+			.then((response) => {
+				if (response.ok) {
+					const updatedLines = lines.filter((line) => line.id !== lineId)
+					setLines(updatedLines)
+				} else {
+					throw new Error('Network response was not ok.')
+				}
+			})
+			.catch((error) => console.log('Error:', error))
 	}
 
 	const updateNodePosition = (data, nodeId) => {
@@ -133,7 +151,26 @@ function Map() {
 			}
 			return line
 		})
+
 		setLines(updatedLines)
+
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+			method: 'PATCH',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				node: {
+					x: data.x,
+					y: data.y,
+				},
+			}),
+		})
+			.then((response) => response.json())
+			.catch((error) => {
+				console.log('Error updating node position:', error)
+			})
 	}
 
 	const updateNodeLabel = (newLabel, nodeId) => {
@@ -157,7 +194,7 @@ function Map() {
 
 	return (
 		<>
-			<h1 className="gradient">{title}</h1>
+			{/* <h1 className="gradient">{title}</h1> */}
 			<div className="map-container">
 				{nodes.map((node) => (
 					<Node
@@ -184,46 +221,3 @@ function Map() {
 }
 
 export default Map
-
-// const updateNodePosition = (data, nodeId) => {
-// 	fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
-// 		method: 'PATCH',
-// 		credentials: 'include',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 		body: JSON.stringify({
-// 			node: {
-// 				x: data.x,
-// 				y: data.y,
-// 			},
-// 		}),
-// 	})
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			updateLinePosition(nodeId)
-// 		})
-// 		.catch((error) => {
-// 			console.log('Error updating node position:', error)
-// 		})
-// }
-
-// const updateLinePosition = (nodeId) => {
-// 	const updatedLines = lines.map((line) => {
-// 		if (line.parent_id === nodeId || line.child_id === nodeId) {
-// 			const sourceNode = nodes.find((node) => node.id === line.parent_id)
-// 			const targetNode = nodes.find((node) => node.id === line.child_id)
-// 			if (sourceNode && targetNode) {
-// 				return {
-// 					...line,
-// 					x1: sourceNode.x,
-// 					y1: sourceNode.y,
-// 					x2: targetNode.x,
-// 					y2: targetNode.y,
-// 				}
-// 			}
-// 		}
-// 		return line
-// 	})
-// 	setLines(updatedLines)
-// }

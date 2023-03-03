@@ -12,37 +12,19 @@ body,
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
-	overflow: hidden;
+	color: white;
+	background-color: var(--darkBlue);
+    overflow: hidden;
 }
 
 /* THEME */
 
 .app {
-	position: relative;
+	/* position: relative;
 	width: 100%;
 	height: 100%;
-	background-color: var(--darkBlue);
+	background-color: var(--darkBlue); */
 }
-
-/* .background {
-	background: var(--darkBlue);
-}
-
-.gradient {
-	background: linear-gradient(to right, rgb(67, 124, 205), rgb(69, 214, 202));
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.gradient-border {
-	padding: 10px;
-	box-shadow: 0 0 0 2px rgba(67, 124, 205, 0.5), 0 0 0 4px rgba(69, 214, 202, 0.5);
-}
-
-.gradient-line {
-	background-image: linear-gradient(to right, rgb(67, 124, 205), rgb(69, 214, 202));
-    z-index: 1;
-} */
 
 /* NAV */
 
@@ -88,7 +70,7 @@ body,
 /* FORMS */
 
 .form-input {
-    width: auto;
+	width: auto;
 	border: none;
 	border-radius: 1px;
 	font-size: 1rem;
@@ -97,46 +79,54 @@ body,
 }
 
 .form-input:focus {
-    border: none;
+	border: none;
 	outline: none;
 }
 
 /* MAP CONTAINER */
 
 .map-container {
+	position: absolute;
 
 }
 
 /* NODES */
 
 .node {
-    position: absolute;
+	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    border: 1px solid white;
+	border: 1px solid white;
 	border-radius: 5px;
 	padding: 1em;
-    background-color: #041a3e;
-    z-index: 2;
+	background-color: #041a3e;
+	z-index: 2;
+
+	/* transition: 0.5s ease-in-out; */
 }
 
 .node:hover {
-	border: 0.5px solid white;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	/* transition: 0.5s ease-in-out; */
 }
 
 .handle {
 	cursor: move;
-	padding-right: 10px;
+	opacity: 0.3;
+}
+
+.delete-icon {
+	cursor: pointer;
+	opacity: 0.3;
 }
 
 .input {
 	border: none;
-	border-radius: 1px;
 	font-size: 1rem;
-	font-weight: 700;
+	font-weight: 600;
 	background: transparent;
-    color: white;
+	color: white;
 }
 
 .input:focus {
@@ -203,12 +193,22 @@ body,
 
 /* NODE MENU */
 
-.icon-drag {
-    cursor: move;
-	color: white;
+/* .background {
+	background: var(--darkBlue);
 }
 
-.icon {
-	cursor: pointer;
-	color: white; 
+.gradient {
+	background: linear-gradient(to right, rgb(67, 124, 205), rgb(69, 214, 202));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
+
+.gradient-border {
+	padding: 10px;
+	box-shadow: 0 0 0 2px rgba(67, 124, 205, 0.5), 0 0 0 4px rgba(69, 214, 202, 0.5);
+}
+
+.gradient-line {
+	background-image: linear-gradient(to right, rgb(67, 124, 205), rgb(69, 214, 202));
+    z-index: 1;
+} */
