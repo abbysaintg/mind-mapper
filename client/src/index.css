@@ -24,7 +24,7 @@ body,
 	background-color: var(--darkBlue);
 }
 
-.background {
+/* .background {
 	background: var(--darkBlue);
 }
 
@@ -41,7 +41,8 @@ body,
 
 .gradient-line {
 	background-image: linear-gradient(to right, rgb(67, 124, 205), rgb(69, 214, 202));
-}
+    z-index: 1;
+} */
 
 /* NAV */
 
@@ -100,6 +101,12 @@ body,
 	outline: none;
 }
 
+/* MAP CONTAINER */
+
+.map-container {
+
+}
+
 /* NODES */
 
 .node {
@@ -107,13 +114,15 @@ body,
 	display: flex;
 	justify-content: center;
 	align-items: center;
+    border: 1px solid white;
 	border-radius: 5px;
 	padding: 1em;
-    width: fit-content;
+    background-color: #041a3e;
+    z-index: 2;
 }
 
 .node:hover {
-	border: 0.5px solid lightslategray;
+	border: 0.5px solid white;
 }
 
 .handle {
@@ -122,13 +131,12 @@ body,
 }
 
 .input {
-	width: auto;
 	border: none;
 	border-radius: 1px;
 	font-size: 1rem;
 	font-weight: 700;
 	background: transparent;
-	/* z-index: 5; */
+    color: white;
 }
 
 .input:focus {
@@ -197,10 +205,10 @@ body,
 
 .icon-drag {
     cursor: move;
-	color: rgba(69, 214, 202, 0.5);
+	color: white;
 }
 
 .icon {
 	cursor: pointer;
-	color: rgba(69, 214, 202, 0.5);
+	color: white; 
 }

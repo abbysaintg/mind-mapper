@@ -12,33 +12,32 @@ function Map() {
 	const [lines, setLines] = useState([])
 
 	useEffect(() => {
-		if (user && mapId) {
-			fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}`, {
-				credentials: 'include',
+		if (!user || !mapId) return
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}`, {
+			credentials: 'include',
+		})
+			.then((resp) => resp.json())
+			.then((data) => {
+				setTitle(data.title)
+				setNodes(data.nodes)
+				setLines(data.lines)
 			})
-				.then((resp) => resp.json())
-				.then((data) => {
-					setTitle(data.title)
-					setNodes(data.nodes)
-					setLines(data.lines)
-				})
-				.catch((error) => console.log('Error:', error))
-		}
-	}, [user, mapId])
+			.catch((error) => console.log('Error:', error))
+	}, [])
 
 	const handleAddNode = (node_1, placement, positionX, positionY) => {
 		let node_2_x
 		let node_2_y
-		if (placement == 'top') {
+		if (placement === 'top') {
 			node_2_x = positionX
-			node_2_y = positionY - 400
-		} else if (placement == 'right') {
+			node_2_y = positionY - 100
+		} else if (placement === 'right') {
 			node_2_x = positionX + 400
 			node_2_y = positionY
-		} else if (placement == 'bottom') {
+		} else if (placement === 'bottom') {
 			node_2_x = positionX
 			node_2_y = positionY + 100
-		} else if (placement == 'left') {
+		} else if (placement === 'left') {
 			node_2_x = positionX - 400
 			node_2_y = positionY
 		} else {
@@ -78,7 +77,6 @@ function Map() {
 				line: {
 					parent_id: node_1.id,
 					child_id: node_2.id,
-					mapId: mapId,
 				},
 			}),
 		})
@@ -107,37 +105,38 @@ function Map() {
 	}
 
 	const handLineDelete = (nodeId) => {
-		// find correct line to delete
 		console.log(nodeId)
 	}
 
 	const updateNodePosition = (data, nodeId) => {
-		console.log(`New node position: x: ${data.x}, y: ${data.y}`)
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
-			method: 'PATCH',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				node: {
-					x: data.x,
-					y: data.y,
-				},
-			}),
-		})
-			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node position:', error)
-			})
-	}
+		// Find the index of the node to be updated in the nodes array
+		const nodeIndex = nodes.findIndex((node) => node.id === nodeId)
 
-	const updateLinePosition = (data, nodeId) => {
-		console.log('updating line position')
+		// Update the position of the node in the nodes array
+		const updatedNodes = [...nodes.slice(0, nodeIndex), { ...nodes[nodeIndex], x: data.x, y: data.y }, ...nodes.slice(nodeIndex + 1)]
+		setNodes(updatedNodes)
+
+		// Update the position of the lines that are connected to the node
+		const updatedLines = lines.map((line) => {
+			if (line.parent_id === nodeId || line.child_id === nodeId) {
+				const sourceNode = updatedNodes.find((node) => node.id === line.parent_id)
+				const targetNode = updatedNodes.find((node) => node.id === line.child_id)
+				if (sourceNode && targetNode) {
+					return {
+						...line,
+						x1: sourceNode.x,
+						y1: sourceNode.y,
+						x2: targetNode.x,
+						y2: targetNode.y,
+					}
+				}
+			}
+			return line
+		})
+		setLines(updatedLines)
 	}
 
 	const updateNodeLabel = (newLabel, nodeId) => {
-		setLabel(newLabel)
 		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
@@ -159,7 +158,7 @@ function Map() {
 	return (
 		<>
 			<h1 className="gradient">{title}</h1>
-			<div>
+			<div className="map-container">
 				{nodes.map((node) => (
 					<Node
 						key={node.id}
@@ -168,8 +167,7 @@ function Map() {
 						handleAddNode={handleAddNode}
 						handleDeleteNode={handleDeleteNode}
 						updateNodePosition={updateNodePosition}
-						updateLinePosition={updateLinePosition}
-                        updateNodeLabel={updateNodeLabel}
+						updateNodeLabel={updateNodeLabel}
 					/>
 				))}
 				{lines.map((line) => {
@@ -186,3 +184,46 @@ function Map() {
 }
 
 export default Map
+
+// const updateNodePosition = (data, nodeId) => {
+// 	fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+// 		method: 'PATCH',
+// 		credentials: 'include',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify({
+// 			node: {
+// 				x: data.x,
+// 				y: data.y,
+// 			},
+// 		}),
+// 	})
+// 		.then((response) => response.json())
+// 		.then((data) => {
+// 			updateLinePosition(nodeId)
+// 		})
+// 		.catch((error) => {
+// 			console.log('Error updating node position:', error)
+// 		})
+// }
+
+// const updateLinePosition = (nodeId) => {
+// 	const updatedLines = lines.map((line) => {
+// 		if (line.parent_id === nodeId || line.child_id === nodeId) {
+// 			const sourceNode = nodes.find((node) => node.id === line.parent_id)
+// 			const targetNode = nodes.find((node) => node.id === line.child_id)
+// 			if (sourceNode && targetNode) {
+// 				return {
+// 					...line,
+// 					x1: sourceNode.x,
+// 					y1: sourceNode.y,
+// 					x2: targetNode.x,
+// 					y2: targetNode.y,
+// 				}
+// 			}
+// 		}
+// 		return line
+// 	})
+// 	setLines(updatedLines)
+// }

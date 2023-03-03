@@ -26,6 +26,8 @@ function App() {
 					setLoggedIn(true)
 					setUser(data.user)
 					// localStorage.setItem('loggedIn', 'true') // persist login status
+				} else {
+					throw new Error('Login failed')
 				}
 			})
 			.catch((error) => {
@@ -46,7 +48,7 @@ function App() {
 				if (response.ok) {
 					setLoggedIn(false)
 					setUser(null)
-					setMapId(null) // reset mapId when logging out
+					setMapId(null)
 					navigate(`/login`)
 					// localStorage.removeItem('loggedIn') // Remove the login status from local storage
 				} else {
