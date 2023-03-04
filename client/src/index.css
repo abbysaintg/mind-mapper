@@ -1,6 +1,15 @@
 :root {
-	--darkBlue: #041a3e;
-	--medBlue: #062659;
+	--darkBlue: #073175;
+	--medBlue: #1c3a7f;
+	--offWhite: antiquewhite;
+    --mint: #296e90;
+    --lightMint: #70ecc7;
+    --blue: #1a56a0;
+    --lightBlue: #42a3f9;
+    --yellow: #566463;
+    --lightYellow: #f7cd41;
+    --purple: #374e99;
+    --lightPurple: #9a8be3;
 }
 
 html,
@@ -12,23 +21,41 @@ body,
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
-	color: white;
+	color: var(--lightMint);
 	background-color: var(--darkBlue);
-    overflow: hidden;
+	overflow: hidden;
+}
+
+input {
+	border: none;
+	font-size: 1rem;
+	font-weight: 600;
+	background: transparent;
+    color: var(--lightMint);
+	font-family: 'Montserrat', sans-serif;
+}
+
+input:focus {
+	border: none;
+	outline: none;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.icon {
+	cursor: pointer;
+	opacity: 0.3;
+}
+
+.icon:hover {
+	opacity: 1;
 }
 
 /* THEME */
 
-.app {
-	/* position: relative;
-	width: 100%;
-	height: 100%;
-	background-color: var(--darkBlue); */
-}
-
 /* NAV */
 
 .nav {
+    height: 50px;
 	background-color: var(--medBlue);
 	display: flex;
 	justify-content: space-between;
@@ -57,138 +84,118 @@ body,
 	display: flex;
 	align-items: center;
 	padding: 0.25rem;
+	opacity: 0.7;
 }
 
-.nav li.active {
-	/* background-color: #555; */
-}
-
-.nav li:hover {
-	/* background-color: #777; */
+.nav a:hover {
+	opacity: 1;
 }
 
 /* FORMS */
 
-.form-input {
-	width: auto;
-	border: none;
-	border-radius: 1px;
-	font-size: 1rem;
-	font-weight: 700;
+/* LIBRARY */
+
+.library-title {
+	text-align: center;
+    color: var(--mint);
+}
+
+.library {
+	padding: 0px 40px;
+	display: flex;
+}
+
+.library-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 20px 0px 0px 20px;
+	padding: 10px;
+	border: solid 1px var(--mint);
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 300;
 	background: transparent;
+	cursor: pointer;
 }
 
-.form-input:focus {
-	border: none;
-	outline: none;
+.not-editing:hover {
+	background: var(--mint);
+	color: var(--lightMint);
+	transition: 0.5s;
 }
 
-/* MAP CONTAINER */
+/* MAP  */
 
 .map-container {
 	position: absolute;
-
 }
-
-/* NODES */
 
 .node {
 	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 1px solid white;
-	border-radius: 5px;
+	border-radius: 50px;
 	padding: 1em;
-	background-color: #041a3e;
+	background-color: var(--mint);
+    color: var(--lightMint);
 	z-index: 2;
-
-	/* transition: 0.5s ease-in-out; */
 }
 
 .node:hover {
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	/* transition: 0.5s ease-in-out; */
+	border: 1px solid var(--mint);
+}
+
+.node .icon {
+    opacity: 0;
+  }
+
+.node:hover .icon {
+    opacity: 1;
 }
 
 .handle {
 	cursor: move;
-	opacity: 0.3;
 }
 
-.delete-icon {
+.add-icon {
 	cursor: pointer;
-	opacity: 0.3;
+	position: absolute;
+	opacity: 0;
 }
 
-.input {
-	border: none;
-	font-size: 1rem;
-	font-weight: 600;
-	background: transparent;
-	color: white;
-}
-
-.input:focus {
-	border: none;
-	outline: none;
-	background: rgba(255, 255, 255, 0.25);
+.add-icon:hover {
+	opacity: 0.8;
+	transition: 0.5s ease-in-out;
 }
 
 .add-top {
-	cursor: pointer;
-	position: absolute;
 	top: -12px;
 	left: 50%;
 	transform: translateX(-50%);
-	opacity: 0;
-}
-
-.add-top:hover {
-	opacity: 0.8;
-	transition: 0.5s ease-in-out;
 }
 
 .add-right {
-	cursor: pointer;
-	position: absolute;
 	top: 50%;
 	right: -12px;
 	transform: translateY(-50%);
-	opacity: 0;
-}
-
-.add-right:hover {
-	opacity: 0.8;
-	transition: 0.5s ease-in-out;
 }
 
 .add-bottom {
-	cursor: pointer;
-	position: absolute;
 	bottom: -12px;
 	left: 50%;
 	transform: translateX(-50%);
-	opacity: 0;
-}
-
-.add-bottom:hover {
-	opacity: 0.8;
-	transition: 0.5s ease-in-out;
 }
 
 .add-left {
-	cursor: pointer;
-	position: absolute;
 	top: 50%;
 	left: -12px;
 	transform: translateY(-50%);
 	opacity: 0;
 }
 
-.add-left:hover {
-	opacity: 0.8;
-	transition: 0.5s ease-in-out;
+.line {
+    background-color;: var(--mint)
 }
 
 /* NODE MENU */

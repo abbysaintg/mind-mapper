@@ -11,7 +11,7 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
 
 	useLayoutEffect(() => {
 		if (inputRef.current) {
-			inputRef.current.style.width = `${label.length * 8 + 20}px`
+			inputRef.current.style.width = `${label.length * 8 + 25}px`
 		}
 	}, [label.length])
 
@@ -28,9 +28,9 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
 	}
 
 	return (
-		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} defaultPosition={{ x: node.x, y: node.y }} onStop={(e, data) => updateNodePosition(data, node.id)}>
+		<DraggableCore nodeRef={divRef} bounds="body" handle=".handle" key={node.id} defaultPosition={{ x: node.x, y: node.y }} onDrag={(e, data) => updateNodePosition(data, node.id)}>
 			<div ref={divRef} className="node gradient gradient-border">
-				<DragIndicatorIcon className="handle" />
+				<DragIndicatorIcon className="handle icon" />
 				<input
 					value={label}
 					ref={inputRef}
@@ -38,11 +38,11 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
 					onChange={handleLabelChange}
 					onKeyDown={handleKeyDown}
 				/>
-				<DeleteForeverIcon className="delete-icon" onClick={() => handleDeleteNode(node.id)} />
-				<AddCircleOutlineIcon className="add-top icon" onClick={() => handleAddNode(node, 'top', node.x, node.y)} />
-				<AddCircleOutlineIcon className="add-right icon" onClick={() => handleAddNode(node, 'right', node.x, node.y)} />
-				<AddCircleOutlineIcon className="add-bottom icon" onClick={() => handleAddNode(node, 'bottom', node.x, node.y)} />
-				<AddCircleOutlineIcon className="add-left icon" onClick={() => handleAddNode(node, 'left', node.x, node.y)} />
+				<DeleteForeverIcon className="icon" onClick={() => handleDeleteNode(node.id)} />
+				<AddCircleOutlineIcon className="add-top add-icon" onClick={() => handleAddNode(node, 'top', node.x, node.y)} />
+				<AddCircleOutlineIcon className="add-right add-icon" onClick={() => handleAddNode(node, 'right', node.x, node.y)} />
+				<AddCircleOutlineIcon className="add-bottom add-icon" onClick={() => handleAddNode(node, 'bottom', node.x, node.y)} />
+				<AddCircleOutlineIcon className="add-left add-icon" onClick={() => handleAddNode(node, 'left', node.x, node.y)} />
 			</div>
 		</DraggableCore>
 	)

@@ -1,21 +1,25 @@
 import { Link } from 'react-router-dom'
+import HomeIcon from '@mui/icons-material/Home'
 
 function Navbar({ loggedIn, handleLogout }) {
 	return (
 		<nav className="nav">
-			<ul className='gradient'>
+			<ul className="gradient">
 				{loggedIn ? (
 					<>
-						<Link to="/">Home</Link>
-						<Link to="/maps">Maps</Link>
-						<Link to="/login" onClick={handleLogout}>Logout</Link>
+						<Link to="/"><HomeIcon /></Link>
+						<Link to="/">HOME</Link>
+						<Link to="/maps">MAPS</Link>
+						<Link to="/login" onClick={handleLogout}>
+							LOGOUT
+						</Link>
 					</>
 				) : (
 					<>
-						{' '}
-						<Link to="/">Home</Link>
-						<Link to="/login">Login</Link>
-						<Link to="/signup">Sign Up</Link>
+						<Link to="/"><HomeIcon /></Link>
+						<Link to="/">HOME</Link>
+						<Link to="/login">LOGIN</Link>
+						<Link to="/signup">SIGN UP</Link>
 					</>
 				)}
 			</ul>

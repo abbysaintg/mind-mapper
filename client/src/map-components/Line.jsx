@@ -11,11 +11,11 @@ const Line = ({ x1, y1, x2, y2 }) => {
 				position: 'absolute',
 				width: distance,
 				height: 3,
-				backgroundColor: 'white',
+				backgroundColor: '#296e90',
 				transformOrigin: 'top left',
 				transform: transform,
 			}}
-            className="gradient-line"
+            className="line"
 		/>
 	)
 }
