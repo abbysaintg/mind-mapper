@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_01_183831) do
   create_table "nodes", force: :cascade do |t|
     t.integer "map_id"
     t.string "label"
+    t.string "color"
     t.float "x"
     t.float "y"
     t.datetime "created_at", null: false

@@ -55,6 +55,7 @@ function Map() {
 			body: JSON.stringify({
 				node: {
 					label: 'New Node',
+                    color: 'green',
 					x: node_2_x,
 					y: node_2_y,
 				},
@@ -64,6 +65,7 @@ function Map() {
 			.then((node_2) => {
 				setNodes([...nodes, node_2])
 				handleAddLine(node_1, node_2)
+                console.log(node_2.color)
 			})
 			.catch((error) => console.log('Error:', error))
 	}
@@ -192,9 +194,55 @@ function Map() {
 			})
 	}
 
+    const updateNodeColor = (newColor, nodeId) => {
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+			method: 'PATCH',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				node: {
+					color: newColor,
+				},
+			}),
+		})
+			.then((response) => response.json())
+			.catch((error) => {
+				console.log('Error updating node label:', error)
+			})
+	}
+
+    const handleMapNameChange = (newName) => {
+        setTitle(newName)
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}`, {
+			method: 'PATCH',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				map: {
+					title: title,
+				},
+			}),
+		})
+			.then((response) => response.json())
+			.catch((error) => {
+				console.log('Error updating node label:', error)
+			})
+	}
+
+	const handleKeyDown = (e) => {
+		if (e.keyCode === 13) {
+			e.preventDefault()
+			e.target.blur()
+		}
+	}
+
 	return (
 		<>
-			{/* <h1 className="gradient">{title}</h1> */}
+			<input className="map-title" value={title} onChange={(e) => handleMapNameChange(e.target.value)} onKeyDown={handleKeyDown} />
 			<div className="map-container">
 				{nodes.map((node) => (
 					<Node
@@ -205,6 +253,7 @@ function Map() {
 						handleDeleteNode={handleDeleteNode}
 						updateNodePosition={updateNodePosition}
 						updateNodeLabel={updateNodeLabel}
+                        updateNodeColor={updateNodeColor}
 					/>
 				))}
 				{lines.map((line) => {

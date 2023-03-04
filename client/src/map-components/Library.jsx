@@ -13,6 +13,7 @@ function Library() {
 	const [loading, setLoading] = useState(true)
 	const navigate = useNavigate()
 	const [editing, setEditing] = useState(null)
+	const [newMapTitle, setNewMapTitle] = useState('')
 
 	useEffect(() => {
 		if (!user) return
@@ -25,14 +26,9 @@ function Library() {
 				setLoading(false)
 			})
 			.catch((error) => console.log('Error:', error))
-	}, [user])
-
-	console.log('user:', user)
+	}, [user, newMapTitle])
 
 	const handleAddMap = () => {
-		const title = prompt('Enter a title for your new map')
-		if (!title) return
-
 		fetch(`http://localhost:3000/users/${user.id}/maps`, {
 			method: 'POST',
 			credentials: 'include',
@@ -41,7 +37,7 @@ function Library() {
 			},
 			body: JSON.stringify({
 				map: {
-					title,
+					title: 'New Map',
 				},
 			}),
 		})
@@ -71,31 +67,27 @@ function Library() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-	const handleMapNameChange = (newName, mapToUpdateId) => {
-		console.log(newName, mapToUpdateId)
-		// fetch(`http://localhost:3000/users/${user.id}/maps/${mapToUpdateId}`, {
-		// 	method: 'PATCH',
-		// 	credentials: 'include',
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// 	body: JSON.stringify({
-		// 		map: {
-		// 			title: newName,
-		// 		},
-		// 	}),
-		// })
-		// 	.then((response) => response.json())
-		// 	.catch((error) => {
-		// 		console.log('Error updating node label:', error)
-		// 	})
-	}
-
-	const handleKeyDown = (e) => {
-		if (e.keyCode === 13) {
-			e.preventDefault()
-			e.target.blur()
-		}
+	const handleMapNameChange = (newTitle, mapToUpdateId) => {
+		fetch(`http://localhost:3000/users/${user.id}/maps/${mapToUpdateId}`, {
+			method: 'PATCH',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				map: {
+					title: newTitle,
+				},
+			}),
+		})
+			.then((response) => response.json())
+			.then((updatedMap) => {
+                setNewMapTitle('')
+                setMaps([...maps, updatedMap])
+            })
+			.catch((error) => {
+				console.log('Error updating node label:', error)
+			})
 	}
 
 	if (loading) {
@@ -109,8 +101,23 @@ function Library() {
 					if (map.id == editing) {
 						return (
 							<div className="library-item" key={map.id}>
-								<input value={map.title} onChange={(e) => handleMapNameChange(e.target.value, map.id)} onKeyDown={handleKeyDown} />
-								<EditIcon className="icon" onClick={() => setEditing(null)} />
+								<input
+									value={editing === map.id ? newMapTitle : map.title}
+									onChange={(e) => setNewMapTitle(e.target.value)}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											handleMapNameChange(newMapTitle, map.id)
+											setEditing(null)
+										}
+									}}
+								/>
+								<EditIcon
+									className="icon"
+									onClick={() => {
+										handleMapNameChange(newMapTitle, map.id)
+										setEditing(null)
+									}}
+								/>
 							</div>
 						)
 					} else {

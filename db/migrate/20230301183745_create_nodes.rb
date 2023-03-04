@@ -3,6 +3,7 @@ class CreateNodes < ActiveRecord::Migration[7.0]
     create_table :nodes do |t|
       t.integer :map_id
       t.string :label
+      t.string :color
       t.float :x
       t.float :y
 

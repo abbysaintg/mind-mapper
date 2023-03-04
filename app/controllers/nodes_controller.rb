@@ -45,6 +45,6 @@ class NodesController < ApplicationController
     end
 
     def node_params
-        params.require(:node).permit(:label, :x, :y)
+        params.require(:node).permit(:label, :color, :x, :y)
     end
 end

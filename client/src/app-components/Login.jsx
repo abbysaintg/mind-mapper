@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+
 
 function Login({ handleLogin }) {
 	const [email, setEmail] = useState('')
@@ -36,18 +38,22 @@ function Login({ handleLogin }) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h2 className="gradient">Login</h2>
-			<label className="gradient">
-				Email:
-				<input className="form-input gradient-border" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-			</label>
-			<label className="gradient">
-				Password:
-				<input className="form-input gradient-border" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-			</label>
-			<button type="submit">Submit</button>
-		</form>
+		<div className="login-form">
+            <form onSubmit={handleSubmit}>
+                <div className="form-input">
+                    <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+                    <label>Email</label>
+                </div>
+                <div className="form-input">
+                    <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+                    <label>Password</label>
+                </div>
+				<div className="form-buttons">
+					<button type="submit">LOGIN</button>
+					<Link to="/signup"><button>GO TO SIGN UP</button></Link>
+				</div>
+            </form>
+        </div>
 	)
 }
 

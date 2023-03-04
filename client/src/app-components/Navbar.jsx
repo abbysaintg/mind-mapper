@@ -18,7 +18,7 @@ function Navbar({ loggedIn, handleLogout }) {
 					<>
 						<Link to="/"><HomeIcon /></Link>
 						<Link to="/">HOME</Link>
-						<Link to="/login">LOGIN</Link>
+						<Link to="/login">LOG IN</Link>
 						<Link to="/signup">SIGN UP</Link>
 					</>
 				)}
