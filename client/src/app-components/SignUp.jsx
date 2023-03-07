@@ -12,7 +12,7 @@ function Signup({ handleLogin }) {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 
-		fetch('http://localhost:3000/users', {
+		fetch('https://diy-mind-mapper.onrender.com/users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

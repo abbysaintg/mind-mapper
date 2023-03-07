@@ -17,7 +17,7 @@ function App() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch('http://localhost:3000/logged_in', {
+		fetch('https://diy-mind-mapper.onrender.com/logged_in', {
 			credentials: 'include',
 		})
 			.then((response) => response.json())
@@ -43,7 +43,7 @@ function App() {
 	}
 
 	const handleLogout = () => {
-		fetch('http://localhost:3000/logout', { method: 'DELETE' })
+		fetch('https://diy-mind-mapper.onrender.com/logout', { method: 'DELETE' })
 			.then((response) => {
 				if (response.ok) {
 					setLoggedIn(false)

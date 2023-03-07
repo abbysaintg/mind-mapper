@@ -9,7 +9,7 @@ function Login({ handleLogin }) {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 
-		fetch('http://localhost:3000/login', {
+		fetch('https://diy-mind-mapper.onrender.com/login', {
 			method: 'POST',
 			credentials: 'include', // Send cookies with the request
 			headers: {

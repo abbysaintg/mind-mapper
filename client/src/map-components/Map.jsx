@@ -13,7 +13,7 @@ function Map() {
 
 	useEffect(() => {
 		if (!user || !mapId) return
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}`, {
 			credentials: 'include',
 		})
 			.then((resp) => resp.json())
@@ -46,7 +46,7 @@ function Map() {
 			node_2_y = Math.max(0, Math.min(window.innerHeight / 2, window.innerHeight - padding))
 		}
 
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -71,7 +71,7 @@ function Map() {
 	}
 
 	const handleAddLine = (node_1, node_2) => {
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/lines`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/lines`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -92,7 +92,7 @@ function Map() {
 	}
 
 	const handleDeleteNode = (nodeId) => {
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 		})
@@ -113,7 +113,7 @@ function Map() {
 	}
 
 	const handleLineDelete = (lineId) => {
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 		})
@@ -156,7 +156,7 @@ function Map() {
 
 		setLines(updatedLines)
 
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -176,7 +176,7 @@ function Map() {
 	}
 
 	const updateNodeLabel = (newLabel, nodeId) => {
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -195,7 +195,7 @@ function Map() {
 	}
 
     const updateNodeColor = (newColor, nodeId) => {
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -215,7 +215,7 @@ function Map() {
 
     const handleMapNameChange = (newName) => {
         setTitle(newName)
-		fetch(`http://localhost:3000/users/${user.id}/maps/${mapId}`, {
+		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -260,7 +260,7 @@ function Map() {
 					const sourceNode = nodes.find((node) => node.id === line.parent_id)
 					const targetNode = nodes.find((node) => node.id === line.child_id)
 					if (sourceNode && targetNode) {
-						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} node_1_width={sourceNode.label.length} node_2_width={targetNode.label.length}/>
+						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y}/>
 					}
 					return null
 				})}
