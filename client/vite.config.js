@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://diy-mind-mapper.onrender.com',
+        target: 'https://mind-mapper.onrender.com',
         changeOrigin: true,
         secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
