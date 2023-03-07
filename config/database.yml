@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: diy_mind_mapper_production
-  username: diy_mind_mapper
-  password: <%= ENV["DIY_MIND_MAPPER_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
