@@ -9,6 +9,7 @@ export default defineConfig({
       '/api': {
         target: 'https://diy-mind-mapper.onrender.com',
         changeOrigin: true,
+        secure: false,
         rewrite: path => path.replace(/^\/api/, ''),
       },
     },
