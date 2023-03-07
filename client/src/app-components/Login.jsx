@@ -11,7 +11,6 @@ function Login({ handleLogin }) {
 
 		fetch('/api/login', {
 			method: 'POST',
-			credentials: 'include', // Send cookies with the request
 			headers: {
 				'Content-Type': 'application/json',
 			},

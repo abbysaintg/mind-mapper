@@ -17,9 +17,7 @@ function App() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch('/api/logged_in', {
-			credentials: 'include',
-		})
+		fetch('/api/logged_in')
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.logged_in) {

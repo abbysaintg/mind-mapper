@@ -13,9 +13,7 @@ function Map() {
 
 	useEffect(() => {
 		if (!user || !mapId) return
-		fetch(`/api/users/${user.id}/maps/${mapId}`, {
-			credentials: 'include',
-		})
+		fetch(`/api/users/${user.id}/maps/${mapId}`)
 			.then((resp) => resp.json())
 			.then((data) => {
 				setTitle(data.title)
@@ -48,7 +46,6 @@ function Map() {
 
 		fetch(`/api/users/${user.id}/maps/${mapId}/nodes`, {
 			method: 'POST',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -73,7 +70,6 @@ function Map() {
 	const handleAddLine = (node_1, node_2) => {
 		fetch(`/api/users/${user.id}/maps/${mapId}/lines`, {
 			method: 'POST',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -94,7 +90,6 @@ function Map() {
 	const handleDeleteNode = (nodeId) => {
 		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'DELETE',
-			credentials: 'include',
 		})
 			.then((response) => {
 				if (response.ok) {
@@ -115,7 +110,6 @@ function Map() {
 	const handleLineDelete = (lineId) => {
 		fetch(`/api/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
 			method: 'DELETE',
-			credentials: 'include',
 		})
 			.then((response) => {
 				if (response.ok) {
@@ -158,7 +152,6 @@ function Map() {
 
 		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -176,7 +169,6 @@ function Map() {
 	const updateNodeLabel = (newLabel, nodeId) => {
 		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -193,7 +185,6 @@ function Map() {
     const updateNodeColor = (newColor, nodeId) => {
 		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -211,7 +202,6 @@ function Map() {
         setTitle(newName)
 		fetch(`/api/users/${user.id}/maps/${mapId}`, {
 			method: 'PATCH',
-			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json',
 			},
