@@ -223,7 +223,7 @@ function Map() {
 			},
 			body: JSON.stringify({
 				map: {
-					title: title,
+					title: newName,
 				},
 			}),
 		})
@@ -260,7 +260,7 @@ function Map() {
 					const sourceNode = nodes.find((node) => node.id === line.parent_id)
 					const targetNode = nodes.find((node) => node.id === line.child_id)
 					if (sourceNode && targetNode) {
-						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} />
+						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} node_1_width={sourceNode.label.length} node_2_width={targetNode.label.length}/>
 					}
 					return null
 				})}

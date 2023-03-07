@@ -64,7 +64,7 @@ function App() {
 		<div className="app">
 			<UserContext.Provider value={{ user, setUser }}>
 				<MapContext.Provider value={{ mapId, setMapId }}>
-					<Navbar loggedIn={loggedIn} handleLogout={handleLogout} />
+					<Navbar loggedIn={loggedIn} handleLogout={handleLogout}/>
 					<Routes>
 						<Route path="/" element={<Welcome />} />
 						<Route path="/login" element={<Login handleLogin={handleLogin} />} />

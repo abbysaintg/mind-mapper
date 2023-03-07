@@ -6,9 +6,9 @@ User.destroy_all
 
 puts "creating seeds"
 # Create users
-user1 = User.create(name: "John Doe", email: "john.doe@example.com", password: "password")
-user2 = User.create(name: "Jane Doe", email: "jane.doe@example.com", password: "password")
-user3 = User.create(name: "Bob Smith", email: "bob.smith@example.com", password: "password")
+user1 = User.create(name: "John Doe", email: "john.doe@example.com", avatar_seed: "4lf6wb1v6rc", password: "password")
+user2 = User.create(name: "Jane Doe", email: "jane.doe@example.com", avatar_seed: "v96sk8tz82", password: "password")
+user3 = User.create(name: "Bob Smith", email: "bob.smith@example.com", avatar_seed: "5j1bgvpm8r", password: "password")
 
 # Create maps for each user
 user1_maps = []

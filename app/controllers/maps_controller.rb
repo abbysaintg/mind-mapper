@@ -14,7 +14,7 @@ class MapsController < ApplicationController
 
     def create
         @map = @user.maps.build(map_params)
-        @map.nodes.build(label: 'Root Node', color: 'green', x: 650, y: 350)
+        @map.nodes.build(label: 'Root Node', color: 'green', x: 800, y: 350)
 
         if @map.save
           render json: @map, status: :created

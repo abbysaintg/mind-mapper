@@ -13,7 +13,7 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
 
 	useLayoutEffect(() => {
 		if (inputRef.current) {
-			inputRef.current.style.width = `${label.length * 8 + 25}px`
+			inputRef.current.style.width = `${label.length * 8 + 20}px`
 		}
 	}, [label.length])
 

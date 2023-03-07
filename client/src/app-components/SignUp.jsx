@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ReplayIcon from '@mui/icons-material/Replay';
 
 function Signup({ handleLogin }) {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [passwordConfirmation, setPasswordConfirmation] = useState('')
+	const [avatarSeed, setAvatarSeed] = useState(Math.random().toString(36).substring(2))
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
@@ -21,6 +23,7 @@ function Signup({ handleLogin }) {
 					email: email,
 					password: password,
 					password_confirmation: passwordConfirmation,
+                    avatar_seed: avatarSeed,
 				},
 			}),
 		})
@@ -37,6 +40,10 @@ function Signup({ handleLogin }) {
 			.catch((error) => {
 				console.log(error)
 			})
+	}
+
+	const handleReroll = () => {
+		setAvatarSeed(Math.random().toString(36).substring(2))
 	}
 
 	return (
@@ -58,8 +65,15 @@ function Signup({ handleLogin }) {
 					<input type="password" value={passwordConfirmation} onChange={(event) => setPasswordConfirmation(event.target.value)} required />
 					<label>Confirm Password</label>
 				</div>
+				<div className="avatar-select">
+                    <label>Choose Avatar</label>
+					<img className="avatar" src={`https://api.multiavatar.com/${avatarSeed}.png`} alt="Avatar" />
+					<ReplayIcon className="icon" type="button" onClick={handleReroll}/>
+				</div>
 				<div className="form-buttons">
-					<Link to="/login"><button>GO TO LOGIN</button></Link>
+					<Link to="/login">
+						<button>GO TO LOGIN</button>
+					</Link>
 					<button type="submit">SIGN UP</button>
 				</div>
 			</form>

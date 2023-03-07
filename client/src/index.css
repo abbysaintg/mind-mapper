@@ -50,40 +50,88 @@ input:focus {
 /* NAV */
 
 .nav {
-	height: 60px;
-	background-color: var(--medBlue);
 	display: flex;
 	justify-content: space-between;
-	align-items: space-between;
-	gap: 2rem;
-	padding: 0 1rem;
-}
-
-.site-title {
-	font-size: 2rem;
-}
-
-.nav ul {
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	display: flex;
 	align-items: center;
-	padding: 0.25rem;
+	height: 80px;
+	padding: 0 30px;
+	background-color: var(--medBlue);
+	color: var(--lightMint);
 }
 
 .nav a {
-	color: inherit;
-	text-decoration: none;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	padding: 0.25rem;
-	opacity: 0.7;
+    display: flex;
+    text-decoration: none;
+    opacity: .7;
+    color: var(--lightMint);
 }
 
 .nav a:hover {
 	opacity: 1;
+}
+
+.left-side,
+.right-side {
+	display: flex;
+	align-items: center;
+}
+
+.home-link {
+    padding-left: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.avatar-thumb {
+	width: 45px;
+	height: 45px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+	position: absolute;
+	top: 65px;
+	right: 30px;
+	min-width: 120px;
+	z-index: 1;
+	padding: 5px 10px;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+	background-color: var(--mint);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    padding: 10px 5px;
+}
+
+.links {
+	display: flex;
+}
+
+.links a {
+    padding-left: 18px;
+}
+
+/* WELCOME */
+
+.welcome-container {
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 50px;
+}
+
+.welcome-title {
+	font-size: 3rem;
+	font-weight: 300;
+	text-transform: uppercase;
+	letter-spacing: 5px;
 }
 
 /* FORMS */
@@ -102,7 +150,7 @@ input:focus {
 }
 
 .login-heading {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 .login-form .form-input {
@@ -137,39 +185,50 @@ input:focus {
 
 .form-buttons {
 	display: flex;
-    justify-content: space-between;
-    align-items: center;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .form-buttons button {
 	position: relative;
 	display: inline-block;
 	padding: 10px 20px;
-    border: 1px solid var(--lightMint);
+	border: 1px solid var(--lightMint);
 	transition: 0.5s;
 	margin-top: 10px;
 	letter-spacing: 4px;
-    background: var(--mint);
+	background: var(--mint);
 	color: var(--lightMint);
 }
 
 .form-buttons button:hover {
-    background-color: var(--lightMint);
+	background-color: var(--lightMint);
 	color: var(--mint);
 	transition: 0.5s;
-    cursor: pointer;
+	cursor: pointer;
+}
+
+.avatar-select {
+	padding-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.avatar {
+	width: 100px;
+	height: 100px;
+	padding: 10px 0px;
 }
 
 /* LIBRARY */
 
-.library-title {
-	text-align: center;
-	color: var(--mint);
-}
-
-.library {
-	padding: 0px 40px;
-	display: flex;
+.library-container {
+	padding: 40px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: auto;
 }
 
 .library-item {
@@ -178,18 +237,29 @@ input:focus {
 	align-items: center;
 	text-align: center;
 	margin: 20px 0px 0px 20px;
-	cursor: pointer;
 	border-radius: 50px;
-	padding: 1em;
+	padding: 20px 30px;
 	background-color: var(--mint);
 	color: var(--lightMint);
 	z-index: 2;
 }
 
-.not-editing:hover {
-	background: var(--mint);
-	color: var(--lightMint);
-	transition: 0.5s;
+.library-item:hover {
+	background-color: var(--lightMint);
+	color: var(--mint);
+}
+
+.library-item input {
+	width: 100%;
+
+}
+
+.library-item:hover input {
+	color: var(--mint);
+}
+
+.library-item-icons {
+	display: flex;
 }
 
 /* MAP  */
@@ -215,41 +285,29 @@ input:focus {
 	z-index: 2;
 }
 
-.pink {
-	background-color: var(--pink);
-	color: var(--lightPink);
+.node input {
+	text-align: center;
 }
 
-.green {
-	background-color: var(--mint);
-	color: var(--lightMint);
-}
-
-.yellow {
-	background-color: var(--yellow);
-	color: var(--lightYellow);
-}
-
-.purple {
-	background-color: var(--purple);
-	color: var(--lightPurple);
-}
-
+.pink,
 .pink input {
 	background-color: var(--pink);
 	color: var(--lightPink);
 }
 
+.green,
 .green input {
 	background-color: var(--mint);
 	color: var(--lightMint);
 }
 
+.yellow,
 .yellow input {
 	background-color: var(--yellow);
 	color: var(--lightYellow);
 }
 
+.purple,
 .purple input {
 	background-color: var(--purple);
 	color: var(--lightPurple);
