@@ -17,7 +17,7 @@ function App() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch('/logged_in')
+		fetch('/api/logged_in')
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.logged_in) {
@@ -33,11 +33,11 @@ function App() {
 	const handleLogin = (user) => {
 		setLoggedIn(true)
 		setUser(user)
-		navigate(`/maps`)
+		navigate(`/api/maps`)
 	}
 
 	const handleLogout = () => {
-		fetch('/logout', { method: 'DELETE' })
+		fetch('/api/logout', { method: 'DELETE' })
 			.then((response) => {
 				if (response.ok) {
 					setLoggedIn(false)
