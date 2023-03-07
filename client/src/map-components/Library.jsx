@@ -14,7 +14,7 @@ function Library() {
 
 	useEffect(() => {
 		if (!user) return
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps`, {
+		fetch(`/api/users/${user.id}/maps`, {
 			credentials: 'include',
 		})
 			.then((resp) => resp.json())
@@ -26,7 +26,7 @@ function Library() {
 	}, [user])
 
 	const handleAddMap = () => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps`, {
+		fetch(`/api/users/${user.id}/maps`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -40,7 +40,7 @@ function Library() {
 		})
 			.then((resp) => resp.json())
 			.then((map) => handleSelectMap(map.id))
-			.catch((error) => console.log(error))
+			.catch((error) => console.log('Error:', error))
 	}
 
 	const handleSelectMap = (mapId) => {
@@ -49,7 +49,7 @@ function Library() {
 	}
 
 	const handleDeleteMap = (mapToDeleteId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapToDeleteId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapToDeleteId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 		})
@@ -65,7 +65,7 @@ function Library() {
 	}
 
 	const updateMapName = (newTitle, mapToUpdateId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapToUpdateId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapToUpdateId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -78,14 +78,13 @@ function Library() {
 			}),
 		})
 			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node label:', error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
 	if (loading) {
 		return <div>Loading...</div>
 	}
+    
 	return (
 		<div className="library-container">
 			{maps.map((map) => (

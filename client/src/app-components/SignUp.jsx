@@ -11,8 +11,7 @@ function Signup({ handleLogin }) {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
-
-		fetch('https://diy-mind-mapper.onrender.com/users', {
+		fetch('/api/users', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -34,12 +33,8 @@ function Signup({ handleLogin }) {
 					throw new Error('Create user failed')
 				}
 			})
-			.then((data) => {
-				handleLogin(data.user)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
+			.then((data) => handleLogin(data.user))
+			.catch((error) => console.log('Error:', error))
 	}
 
 	const handleReroll = () => {

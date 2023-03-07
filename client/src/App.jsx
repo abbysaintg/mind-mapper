@@ -17,7 +17,7 @@ function App() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch('https://diy-mind-mapper.onrender.com/logged_in', {
+		fetch('/api/logged_in', {
 			credentials: 'include',
 		})
 			.then((response) => response.json())
@@ -25,39 +25,32 @@ function App() {
 				if (data.logged_in) {
 					setLoggedIn(true)
 					setUser(data.user)
-					// localStorage.setItem('loggedIn', 'true') // persist login status
 				} else {
 					throw new Error('Login failed')
 				}
 			})
-			.catch((error) => {
-				console.log(error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}, [])
 
 	const handleLogin = (user) => {
 		setLoggedIn(true)
 		setUser(user)
 		navigate(`/maps`)
-		// localStorage.setItem('loggedIn', 'true') // persist login status
 	}
 
 	const handleLogout = () => {
-		fetch('https://diy-mind-mapper.onrender.com/logout', { method: 'DELETE' })
+		fetch('/api/logout', { method: 'DELETE' })
 			.then((response) => {
 				if (response.ok) {
 					setLoggedIn(false)
 					setUser(null)
 					setMapId(null)
 					navigate(`/login`)
-					// localStorage.removeItem('loggedIn') // Remove the login status from local storage
 				} else {
 					throw new Error('Logout failed')
 				}
 			})
-			.catch((error) => {
-				console.log(error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
 	return (

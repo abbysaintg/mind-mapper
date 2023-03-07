@@ -9,7 +9,7 @@ function Login({ handleLogin }) {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 
-		fetch('https://diy-mind-mapper.onrender.com/login', {
+		fetch('/api/login', {
 			method: 'POST',
 			credentials: 'include', // Send cookies with the request
 			headers: {
@@ -29,12 +29,8 @@ function Login({ handleLogin }) {
 					throw new Error('Login failed')
 				}
 			})
-			.then((data) => {
-				handleLogin(data.user)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
+			.then((data) => handleLogin(data.user))
+			.catch((error) => console.log('Error:', error))
 	}
 
 	return (

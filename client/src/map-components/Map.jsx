@@ -13,7 +13,7 @@ function Map() {
 
 	useEffect(() => {
 		if (!user || !mapId) return
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}`, {
 			credentials: 'include',
 		})
 			.then((resp) => resp.json())
@@ -46,7 +46,7 @@ function Map() {
 			node_2_y = Math.max(0, Math.min(window.innerHeight / 2, window.innerHeight - padding))
 		}
 
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/nodes`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -71,7 +71,7 @@ function Map() {
 	}
 
 	const handleAddLine = (node_1, node_2) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/lines`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/lines`, {
 			method: 'POST',
 			credentials: 'include',
 			headers: {
@@ -92,7 +92,7 @@ function Map() {
 	}
 
 	const handleDeleteNode = (nodeId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 		})
@@ -113,7 +113,7 @@ function Map() {
 	}
 
 	const handleLineDelete = (lineId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 		})
@@ -156,7 +156,7 @@ function Map() {
 
 		setLines(updatedLines)
 
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -170,13 +170,11 @@ function Map() {
 			}),
 		})
 			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node position:', error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
 	const updateNodeLabel = (newLabel, nodeId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -189,13 +187,11 @@ function Map() {
 			}),
 		})
 			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node label:', error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
     const updateNodeColor = (newColor, nodeId) => {
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -208,14 +204,12 @@ function Map() {
 			}),
 		})
 			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node label:', error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
     const handleMapNameChange = (newName) => {
         setTitle(newName)
-		fetch(`https://diy-mind-mapper.onrender.com/users/${user.id}/maps/${mapId}`, {
+		fetch(`/api/users/${user.id}/maps/${mapId}`, {
 			method: 'PATCH',
 			credentials: 'include',
 			headers: {
@@ -228,9 +222,7 @@ function Map() {
 			}),
 		})
 			.then((response) => response.json())
-			.catch((error) => {
-				console.log('Error updating node label:', error)
-			})
+			.catch((error) => console.log('Error:', error))
 	}
 
 	const handleKeyDown = (e) => {

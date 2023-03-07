@@ -42,9 +42,7 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
         } else if (selection == "purple") {
             setNodeColor("purple")
             updateNodeColor("purple", node.id)
-        } else (
-            console.log("color not available")
-        )
+        }
     }
 
 	return (

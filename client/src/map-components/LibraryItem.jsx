@@ -5,9 +5,9 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 function LibraryItem({ map, handleSelectMap, handleDeleteMap, updateMapName }) {
 	const [mapTitle, setMapTitle] = useState(map.title)
 
-	const handleMapNameChange = (e) => {
-		setMapTitle(e.target.value)
-		updateMapName(mapTitle, map.id)
+	const handleMapNameChange = (newName) => {
+		setMapTitle(newName)
+		updateMapName(newName, map.id)
 	}
 
 	const handleKeyDown = (e) => {
@@ -19,7 +19,7 @@ function LibraryItem({ map, handleSelectMap, handleDeleteMap, updateMapName }) {
 
 	return (
 		<div className="library-item">
-			<input value={mapTitle} onChange={handleMapNameChange} onKeyDown={handleKeyDown} />
+			<input value={mapTitle} onChange={(e) => handleMapNameChange(e.target.value)} onKeyDown={handleKeyDown} />
 			<div className="library-item-icons">
 				<ExitToAppIcon className="icon" onClick={() => handleSelectMap(map.id)} />
 				<DeleteForeverIcon
