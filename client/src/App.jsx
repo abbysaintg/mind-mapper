@@ -17,14 +17,14 @@ function App() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch('/api/logged_in')
+		fetch('/logged_in')
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.logged_in) {
 					setLoggedIn(true)
 					setUser(data.user)
 				} else {
-					throw new Error('Login failed')
+					console.log("Not currently logged in.")
 				}
 			})
 			.catch((error) => console.log('Error:', error))
@@ -37,7 +37,7 @@ function App() {
 	}
 
 	const handleLogout = () => {
-		fetch('/api/logout', { method: 'DELETE' })
+		fetch('/logout', { method: 'DELETE' })
 			.then((response) => {
 				if (response.ok) {
 					setLoggedIn(false)

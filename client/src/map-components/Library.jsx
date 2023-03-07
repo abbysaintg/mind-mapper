@@ -14,7 +14,7 @@ function Library() {
 
 	useEffect(() => {
 		if (!user) return
-		fetch(`/api/users/${user.id}/maps`)
+		fetch(`/users/${user.id}/maps`)
 			.then((resp) => resp.json())
 			.then((data) => {
 				setMaps(data)
@@ -24,7 +24,7 @@ function Library() {
 	}, [user])
 
 	const handleAddMap = () => {
-		fetch(`/api/users/${user.id}/maps`, {
+		fetch(`/users/${user.id}/maps`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function Library() {
 	}
 
 	const handleDeleteMap = (mapToDeleteId) => {
-		fetch(`/api/users/${user.id}/maps/${mapToDeleteId}`, {
+		fetch(`/users/${user.id}/maps/${mapToDeleteId}`, {
 			method: 'DELETE',
 		})
 			.then((response) => {
@@ -61,7 +61,7 @@ function Library() {
 	}
 
 	const updateMapName = (newTitle, mapToUpdateId) => {
-		fetch(`/api/users/${user.id}/maps/${mapToUpdateId}`, {
+		fetch(`/users/${user.id}/maps/${mapToUpdateId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',

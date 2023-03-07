@@ -13,7 +13,7 @@ function Map() {
 
 	useEffect(() => {
 		if (!user || !mapId) return
-		fetch(`/api/users/${user.id}/maps/${mapId}`)
+		fetch(`/users/${user.id}/maps/${mapId}`)
 			.then((resp) => resp.json())
 			.then((data) => {
 				setTitle(data.title)
@@ -44,7 +44,7 @@ function Map() {
 			node_2_y = Math.max(0, Math.min(window.innerHeight / 2, window.innerHeight - padding))
 		}
 
-		fetch(`/api/users/${user.id}/maps/${mapId}/nodes`, {
+		fetch(`/users/${user.id}/maps/${mapId}/nodes`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function Map() {
 	}
 
 	const handleAddLine = (node_1, node_2) => {
-		fetch(`/api/users/${user.id}/maps/${mapId}/lines`, {
+		fetch(`/users/${user.id}/maps/${mapId}/lines`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function Map() {
 	}
 
 	const handleDeleteNode = (nodeId) => {
-		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'DELETE',
 		})
 			.then((response) => {
@@ -108,7 +108,7 @@ function Map() {
 	}
 
 	const handleLineDelete = (lineId) => {
-		fetch(`/api/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}/lines/${lineId}`, {
 			method: 'DELETE',
 		})
 			.then((response) => {
@@ -150,7 +150,7 @@ function Map() {
 
 		setLines(updatedLines)
 
-		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ function Map() {
 	}
 
 	const updateNodeLabel = (newLabel, nodeId) => {
-		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ function Map() {
 	}
 
     const updateNodeColor = (newColor, nodeId) => {
-		fetch(`/api/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
@@ -200,7 +200,7 @@ function Map() {
 
     const handleMapNameChange = (newName) => {
         setTitle(newName)
-		fetch(`/api/users/${user.id}/maps/${mapId}`, {
+		fetch(`/users/${user.id}/maps/${mapId}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
