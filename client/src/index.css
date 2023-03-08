@@ -126,7 +126,12 @@ input:focus {
 }
 
 .links a {
+    opacity: .7;
 	padding-left: 18px;
+}
+
+.links a:hover {
+    opacity: 1;
 }
 
 /* WELCOME */
