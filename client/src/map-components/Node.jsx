@@ -30,16 +30,16 @@ function Node({ node, handleAddNode, handleDeleteNode, updateNodePosition, updat
 	}
 
     const selectColor = (selection) => {
-        if (selection == "pink") {
+        if (selection === "pink") {
             setNodeColor("pink")
             updateNodeColor("pink", node.id)
-        } else if (selection == "green") {
+        } else if (selection === "green") {
             setNodeColor("green")
             updateNodeColor("green", node.id)
-        } else if (selection == "yellow") {
+        } else if (selection === "yellow") {
             setNodeColor("yellow")
             updateNodeColor("yellow", node.id)
-        } else if (selection == "purple") {
+        } else if (selection === "purple") {
             setNodeColor("purple")
             updateNodeColor("purple", node.id)
         }
