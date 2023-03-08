@@ -43,7 +43,7 @@ function App() {
 					setLoggedIn(false)
 					setUser(null)
 					setMapId(null)
-					navigate(`/login`)
+					navigate(`/`)
 				} else {
 					throw new Error('Logout failed')
 				}

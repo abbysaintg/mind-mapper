@@ -1,22 +1,23 @@
 import { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../App'
 import { MapContext } from '../App'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Node from './Node'
 import Line from './Line'
 
 function Map() {
 	const { user } = useContext(UserContext)
 	const { mapId } = useContext(MapContext)
-	const [title, setTitle] = useState([])
 	const [nodes, setNodes] = useState([])
 	const [lines, setLines] = useState([])
+    const navigate = useNavigate()
 
 	useEffect(() => {
 		if (!user || !mapId) return
 		fetch(`/users/${user.id}/maps/${mapId}`)
 			.then((resp) => resp.json())
 			.then((data) => {
-				setTitle(data.title)
 				setNodes(data.nodes)
 				setLines(data.lines)
 			})
@@ -52,7 +53,7 @@ function Map() {
 			body: JSON.stringify({
 				node: {
 					label: 'New Node',
-                    color: 'green',
+					color: 'green',
 					x: node_2_x,
 					y: node_2_y,
 				},
@@ -62,7 +63,7 @@ function Map() {
 			.then((node_2) => {
 				setNodes([...nodes, node_2])
 				handleAddLine(node_1, node_2)
-                console.log(node_2.color)
+				console.log(node_2.color)
 			})
 			.catch((error) => console.log('Error:', error))
 	}
@@ -182,7 +183,7 @@ function Map() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-    const updateNodeColor = (newColor, nodeId) => {
+	const updateNodeColor = (newColor, nodeId) => {
 		fetch(`/users/${user.id}/maps/${mapId}/nodes/${nodeId}`, {
 			method: 'PATCH',
 			headers: {
@@ -198,33 +199,18 @@ function Map() {
 			.catch((error) => console.log('Error:', error))
 	}
 
-    const handleMapNameChange = (newName) => {
-        setTitle(newName)
-		fetch(`/users/${user.id}/maps/${mapId}`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				map: {
-					title: newName,
-				},
-			}),
-		})
-			.then((response) => response.json())
-			.catch((error) => console.log('Error:', error))
-	}
-
-	const handleKeyDown = (e) => {
-		if (e.keyCode === 13) {
-			e.preventDefault()
-			e.target.blur()
-		}
-	}
+    const handleGoBack = () => {
+        navigate(`/maps`)
+    }
 
 	return (
 		<>
-			<input className="map-title" value={title} onChange={(e) => handleMapNameChange(e.target.value)} onKeyDown={handleKeyDown} />
+			<div className='map-top-row'>
+                <div className='back-to-maps'>
+                    <ArrowBackIcon className='arrow-icon icon' style={{ fontSize: 25 }} onClick={handleGoBack}/>
+                    <p onClick={handleGoBack}>BACK TO MAPS</p>
+                </div>
+            </div>
 			<div className="map-container">
 				{nodes.map((node) => (
 					<Node
@@ -235,14 +221,14 @@ function Map() {
 						handleDeleteNode={handleDeleteNode}
 						updateNodePosition={updateNodePosition}
 						updateNodeLabel={updateNodeLabel}
-                        updateNodeColor={updateNodeColor}
+						updateNodeColor={updateNodeColor}
 					/>
 				))}
 				{lines.map((line) => {
 					const sourceNode = nodes.find((node) => node.id === line.parent_id)
 					const targetNode = nodes.find((node) => node.id === line.child_id)
 					if (sourceNode && targetNode) {
-						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y}/>
+						return <Line key={line.id} x1={sourceNode.x} y1={sourceNode.y} x2={targetNode.x} y2={targetNode.y} />
 					}
 					return null
 				})}

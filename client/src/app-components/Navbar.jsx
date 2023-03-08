@@ -10,7 +10,7 @@ function Navbar({ loggedIn, handleLogout }) {
 		<nav className="nav">
 			<div className="left-side">
 				<Link to="/">
-					<HomeIcon style={{ fontSize: 40 }} />
+					<HomeIcon className="home-icon icon" style={{ fontSize: 25 }} />
 				</Link>
 				<Link className="home-link" to="/">HOME</Link>
 			</div>
