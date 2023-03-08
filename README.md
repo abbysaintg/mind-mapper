@@ -10,6 +10,7 @@ You can try it out here: https://diy-mind-mapper.onrender.com
 
 ## DEMO
 
+https://user-images.githubusercontent.com/116386196/223787888-186b05a9-46eb-428d-b400-fa8d1c23a010.mp4
 
 ## GETTING STARTED
 
