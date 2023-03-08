@@ -1,24 +1,26 @@
-# README
+# MIND MAPPER
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Mind Mapper is a web application that allows you to create mind maps to brainstorm ideas. You can create idea nodes, connect them, and customize each node.
 
-Things you may want to cover:
+This is a Ruby on Rails and React app that uses a PostgreSQL database to store data.
 
-* Ruby version
+This app was created for my capstone project at Flatiron's Software Engineering Bootcamp.
 
-* System dependencies
+You can try it out here: https://diy-mind-mapper.onrender.com 
 
-* Configuration
+## DEMO
 
-* Database creation
 
-* Database initialization
+## GETTING STARTED
 
-* How to run the test suite
+To get started, you'll need to have Ruby, Rails, Node.js, and NPM installed on your machine. Once you have those installed, you can follow these steps:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Clone the repository
+2. Navigate to the project directory: cd mind-mapper
+3. Install dependencies: bundle install
+4. Navigate to the client directory: cd client
+5. Install dependencies: npm install
+6. Create the database: rails db:create
+7. Migrate the database: rails db:migrate
+8. Start the Rails server: rails s
+9. In a separate terminal window, start the React app: npm start
