@@ -6,7 +6,7 @@ This is a Ruby on Rails and React app that uses a PostgreSQL database to store d
 
 This app was created for my capstone project at Flatiron's Software Engineering Bootcamp.
 
-You can try it out here: https://diy-mind-mapper.onrender.com 
+You can try it out here: https://mind-mapper.onrender.com
 
 ## DEMO
 
