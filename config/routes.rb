@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-    resources :users, only: [:index, :show, :create, :update, :destroy] do
+    resources :users, only: [:show, :create] do
       resources :maps, only: [:index, :show, :create, :update, :destroy] do
         resources :nodes, only: [:index, :show, :create, :update, :destroy]
         resources :lines, only: [:index, :show, :create, :update, :destroy]

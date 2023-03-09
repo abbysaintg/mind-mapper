@@ -14,6 +14,14 @@ class ApplicationController < ActionController::API
 
     def authorize
         @current_user = User.find_by(id: session[:user_id])
+
+        # if the current user can't be found, render unauthorized message
+        if @current_user.nil?
+            render json: { errors: ["Not authorized, please log in"] }, status: :unauthorized
+        # if the user_id parameter is present in the request and is not equal to the current/logged-in user's id, then return unauthorized error message
+        elsif params[:user_id].present? && params[:user_id].to_i != @current_user.id
+            render json: { errors: ["Not authorized to access this resource"] }, status: :unauthorized
+        end
     end
 
     def record_not_found(exception)
