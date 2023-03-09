@@ -161,10 +161,10 @@ input:focus {
     opacity: .6;
 }
 
-.welcome-video {
-    padding-top: 20px;
-    width: 60%;
-    height: 60%;
+.welcome-image {
+    padding: 5px 0px;
+    width: 55%;
+    height: 55%;
 }
 
 /* FORMS */

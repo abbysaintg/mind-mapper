@@ -1,4 +1,4 @@
-import MapExampleCompressed from '../MapExampleCompressed.mp4'
+import WelcomeImage from '../WelcomeImage.png'
 
 function Welcome() {
 	return (
@@ -8,7 +8,7 @@ function Welcome() {
 			<p className="welcome-text">
 				With our easy-to-use mind mapping tool, you can create and customize your own mind maps to clarify your thinking and improve your productivity.
 			</p>
-			<video className="welcome-video" src={MapExampleCompressed} autoPlay loop />
+			<img className="welcome-image" src={WelcomeImage} />
 		</div>
 	)
 }
